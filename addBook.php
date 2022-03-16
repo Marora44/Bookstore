@@ -1,6 +1,5 @@
 <?php
 require_once "config.php";
-//testing repl
 //for testing
 $_SESSION['userMode'] = 'pub';
 $_SESSION['id'] = 1;
