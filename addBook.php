@@ -51,15 +51,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if($fpass != $pass) $passerr = "&nbsp;&nbsp;Incorrect password";
         mysqli_free_result($passres);
     }
-    // if(empty($isbnerr.$titleerr.$authorerr.$genreerr.$mediumerr.$priceerr.$passerr)){
-    //     $addbook = "INSERT INTO book(isbn,title,authorID,genre,price,isDigital,isPhysical,pubID) VALUES(\"{$isbn}\",\"{$title}\",{$authorID},\"{$genre}\",{$price},{$isdigital},{$isphysical},{$_SESSION['id']})";
-    //     if(mysqli_query($dbConnect,$addbook)) $sqlmessage = "Success";
-    //     else{
-    //        $sqlerr = mysqli_error($dbConnect);
-    //        $sqlmessage = "Error: {$addbook} <br> {$sqlerr}"; 
-    //     }
+    if(empty($isbnerr.$titleerr.$authorerr.$genreerr.$mediumerr.$priceerr.$passerr)){
+        $addbook = "INSERT INTO book(isbn,title,authorID,genre,price,isDigital,isPhysical,pubID) VALUES(\"{$isbn}\",\"{$title}\",{$authorID},\"{$genre}\",{$price},{$isdigital},{$isphysical},{$_SESSION['id']})";
+        if(mysqli_query($dbConnect,$addbook)) $sqlmessage = "Success";
+        else{
+           $sqlerr = mysqli_error($dbConnect);
+           $sqlmessage = "Error: {$addbook} <br> {$sqlerr}"; 
+        }
          
-    // }
+    }
     
 }
 
