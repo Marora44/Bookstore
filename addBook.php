@@ -3,7 +3,6 @@ $headerOutput = "<h1> Welcome to the Online Bookstore</h1>";
 include ('header.php'); 
 
 require_once "config.php";
-//testing repl
 //for testing
 $_SESSION['userMode'] = 'pub';
 $_SESSION['id'] = 1;
