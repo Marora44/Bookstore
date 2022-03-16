@@ -67,9 +67,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <title>Add a Book</title>
 
 <body>
-    <div>
+    <!-- <div>
 		<h1><a href="index.php"> Home </a></h1>
-	</div>
+	</div> -->
     <h1>Add a Book</h1>
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
