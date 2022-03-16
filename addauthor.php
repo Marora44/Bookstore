@@ -13,6 +13,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($fauthorlastname)) $authorlnerr = "&nbsp;&nbsp;Please enter a last name";
     else if(preg_match("/^[a-zA-Z]*$/", $fauthorlastname)== false) $authorlnerr = "&nbsp;&nbsp;Name can only conatin letters";
     else $authorlastname = $fauthorlastname;
+    if(empty($authorfnerr.$authorlnerr)){
+        $authorduplicatequery = mysqli_query($dbConnect,"SELECT * FROM author WHERE firstname = \"{$fauthorfirstname}\" AND lastname = \"{$fauthorlastname}\"");
+        if(mysqli_num_rows($authorduplicatequery) > 0) $authorerr = "&nbsp&nbspThis author already exists in our database";
+    }
 }
 
 ?>
