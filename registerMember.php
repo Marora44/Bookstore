@@ -35,7 +35,7 @@
 			</div>
 			<br>
 			<div>
-				Want to login as a Member? <a href="loginUser.php"> Sign In </a>
+				Want to login as a Member? <a href="loginMember.php"> Sign In </a>
 			</div>
             <div>
                 Want to login as a Publisher? <a href="loginPublisher.php"> Sign In </a>
