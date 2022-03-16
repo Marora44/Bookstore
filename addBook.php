@@ -1,7 +1,6 @@
 <?php
-$headerOutput = "<h1> Welcome to the Online Bookstore</h1>";
-include ('header.php'); 
 
+//include ('header.php');
 require_once "config.php";
 //for testing
 $_SESSION['userMode'] = 'pub';
