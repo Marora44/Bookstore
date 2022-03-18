@@ -19,12 +19,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($fisbn)) $isbnerr = "&nbsp;&nbsp;Please enter an ISBN";
     else if(preg_match("/^[0-9]*$/", $fisbn)== false) $isbnerr = "&nbsp;&nbsp;ISBN must contain only numbers";
     else if(strlen($fisbn) != 13) $isbnerr = "&nbsp;&nbsp;ISBN must be 13 numbers";
-    else $isbn = $fisbn;
+    else{
+        $isbnquery = mysqli_query($dbConnect,"SELECT * FROM book WHERE isbn = {$fisbn}");
+        if (mysqli_num_rows($isbnquery) > 0) $isbnerr = "&nbsp;&nbsp;This book already exists in our database (You can update existing books <a href=\"updatebook.php\">here</a>)";
+        else $isbn = $fisbn;
+    }
     $ftitle = htmlspecialchars(trim($_POST['title']));
     if(empty($ftitle)) $titleerr = "&nbsp;&nbsp;Please enter a title";
     else $title = $ftitle;
     if (array_key_exists('author',$_POST))$fauthID = htmlspecialchars(trim($_POST['author']));
-    if(empty($fauthID)) $authorerr = "&nbsp;&nbsp;Please select an author";
+    if(empty($fauthID)) $authorerr = "&nbsp;&nbsp;Please select an author (Don't see your author? Add it <a href=\"addauthor.php\">here</a>)";
     else $authorID = intval($fauthID);
     $fgenre = htmlspecialchars(trim($_POST['genre']));
     if(empty($fgenre)) $genreerr = "&nbsp;&nbsp;Please enter a genre";
@@ -60,7 +64,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
 }
 
-
 ?>
 
 <html>
@@ -86,11 +89,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
             mysqli_free_result($result);
             ?>
-        </select><?php echo $authorerr ?>&nbsp;&nbsp;(Don't see your author? Add it <a href="addauthor.php">here</a>)<br><br>
+        </select><?php echo $authorerr ?><br><br>
         Genre: <input type="text" name="genre" size="25" value=<?php echo "\"{$fgenre}\"" ?>><?php echo $genreerr?><br><br>
         <p style="margin-bottom: 0.5em; margin-top:0cm">Medium: <?php echo $mediumerr?></p>
-        &ensp;<input type="checkbox" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <?php echo $fphys?><br>
-        &ensp;<input type="checkbox" name="isdigital" value = "checked" <?php echo $fdigit?>> Digital <?php echo $fdigit?><br><br>
+        &ensp;<input type="checkbox" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <br>
+        &ensp;<input type="checkbox" name="isdigital" value = "checked" <?php echo $fdigit?>> Digital <br><br>
         Price: <input type="number" name="price" size="8" min="0.01" max="10000.00" step="0.01" value=<?php echo $fprice ?>><?php echo $priceerr?><br><br>
         Publisher ID: <input type="text" name="id" value="<?php echo $_SESSION['id'];?>" disabled><br><br>
         Password: <input type="password" name="password"><?php echo $passerr?><br><br>
