@@ -7,8 +7,8 @@ $_SESSION['userMode'] = 'pub';
 $_SESSION['id'] = 1;
 
 $isbn = $title = $genre = "";
-//$isdigital = $isphysical = 0;
-$isbnerr = $titleerr = $authorerr = $genreerr = $mediumerr = $priceerr = $passerr = "";
+$isdigital = $isphysical = 0;
+$isbnerr = $titleerr = $authorerr = $genreerr = $mediumerr = $priceerr = $passerr = ""; //variables for error messages
 $authorID = 0;
 $price = 0.00;
 $fisbn = $ftitle = $fgenre = $fauthid = $fprice = $fdigit = $fphys = $fpass = ""; //values entered in the html form
@@ -37,8 +37,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if (array_key_exists('isphysical',$_POST)) $fphys = htmlspecialchars(trim($_POST['isphysical']));
     if (empty($fdigit) && empty($fphys)) $mediumerr = "Please select at least one";
     else {
-        $isdigital = !empty($fdigit) ? 1 : 0;
-        $isphysical = !empty($fphys) ? 1 : 0;
+        $isdigital = intval(!empty($fdigit));
+        $isphysical = intval(!empty($fphys));
     } 
     $fprice = htmlspecialchars($_POST['price']);
     if(empty($fprice)) $priceerr = "&nbsp;&nbsp;Please enter a valid price";
