@@ -1,20 +1,22 @@
 <?php
 session_start();
 //include ('header.php');
-require_once "config.php";
+require_once "../config.php";
 //for testing
 $_SESSION['userMode'] = 'pub';
 $_SESSION['id'] = 1;
 
-if(isset($_SESSION['isbn'])){
+
+
+if (isset($_SESSION['isbn'])) {
     $isbn = $_SESSION['isbn'];
-    unset($_SESSION['isbn']);
-}
-else{
-    header("index.php");
+} else {
+    header("Location: index.php");
+    die("something went wrong");
 }
 
-$isbn = $title = $genre = "";
+
+$title = $genre = "";
 $isdigital = $isphysical = 0;
 $isbnerr = $titleerr = $authorerr = $genreerr = $mediumerr = $priceerr = $passerr = ""; //variables for error messages
 $authorID = 0;
@@ -22,10 +24,10 @@ $price = 0.00;
 $ftitle = $fgenre = $fauthid = $fprice = $fdigit = $fphys = $fpass = ""; //values entered in the html form
 $sqlmessage = "";
 
-$bookinfo = mysqli_query($dbConnect,"SELECT * FROM book WHERE isbn = {$isbn}");
+$bookinfo = mysqli_query($dbConnect, "SELECT * FROM book WHERE isbn = \"{$isbn}\"");
 $book = mysqli_fetch_assoc($bookinfo);
 $ftitle = $book['title']; $fgenre = $book['genre']; $fdigit = $book['isDigital'] ? "checked" : ""; $fphys = $book['isPhysical'] ? "checked" : "";
-$fauthid = $book['authorID']; $fprice = $book['price'];
+$authorID = $book['authorID']; $fprice = $book['price'];
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // $fisbn = htmlspecialchars(trim($_POST['isbn']));
@@ -66,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_free_result($passres);
     }
     if(empty($isbnerr.$titleerr.$authorerr.$genreerr.$mediumerr.$priceerr.$passerr)){
-        $updatebook = "UPDATE book SET title = \"{$title}\", authorID = \"{$authorID}\", genre = \"{$genre}\"";
+        $updatebook = "UPDATE book SET title = \"{$title}\", authorID = \"{$authorID}\", genre = \"{$genre}\", price = {$price}, isDigital = {$isdigital}, isPhysical = {$isphysical}";
         if(mysqli_query($dbConnect,$updatebook)) $sqlmessage = "Success";
         else{
            $sqlerr = mysqli_error($dbConnect);
@@ -80,13 +82,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 
 <html>
-<title>Add a Book</title>
+<title>Update a Book</title>
 
 <body>
     <!-- <div>
 		<h1><a href="index.php"> Home </a></h1>
 	</div> -->
-    <h1>Add a Book</h1>
+    <h1>Update a Book</h1>
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         ISBN: <input disabled type="text" name="isbn" size="25" maxlength="13" value=<?php echo $isbn ?>><br><br>
