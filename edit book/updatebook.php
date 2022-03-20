@@ -1,18 +1,30 @@
 <?php
-
+session_start();
 //include ('header.php');
 require_once "config.php";
 //for testing
 $_SESSION['userMode'] = 'pub';
 $_SESSION['id'] = 1;
 
+if(isset($_SESSION['isbn'])){
+    $isbn = $_SESSION['isbn'];
+}
+else{
+    header("index.php");
+}
+
 $isbn = $title = $genre = "";
 $isdigital = $isphysical = 0;
 $isbnerr = $titleerr = $authorerr = $genreerr = $mediumerr = $priceerr = $passerr = ""; //variables for error messages
 $authorID = 0;
 $price = 0.00;
-$fisbn = $ftitle = $fgenre = $fauthid = $fprice = $fdigit = $fphys = $fpass = ""; //values entered in the html form
+$ftitle = $fgenre = $fauthid = $fprice = $fdigit = $fphys = $fpass = ""; //values entered in the html form
 $sqlmessage = "";
+
+$bookinfo = mysqli_query($dbConnect,"SELECT * FROM book WHERE isbn = {$isbn}");
+$book = mysqli_fetch_assoc($bookinfo);
+$title = $book['title']; $genre = $book['genre']; $isdigital = $book['isDigital']; $isphysical = $book['isPhysical'];
+$authorID = $book['authorID']; $price = $book['price'];
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // $fisbn = htmlspecialchars(trim($_POST['isbn']));
@@ -53,11 +65,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_free_result($passres);
     }
     if(empty($isbnerr.$titleerr.$authorerr.$genreerr.$mediumerr.$priceerr.$passerr)){
-        $addbook = "INSERT INTO book(isbn,title,authorID,genre,price,isDigital,isPhysical,pubID) VALUES(\"{$isbn}\",\"{$title}\",{$authorID},\"{$genre}\",{$price},{$isdigital},{$isphysical},{$_SESSION['id']})";
-        if(mysqli_query($dbConnect,$addbook)) $sqlmessage = "Success";
+        $updatebook = "UPDATE book SET title = \"{$title}\", authorID = \"{$authorID}\", genre = \"{$genre}\"";
+        if(mysqli_query($dbConnect,$updatebook)) $sqlmessage = "Success";
         else{
            $sqlerr = mysqli_error($dbConnect);
-           $sqlmessage = "Error: {$addbook} <br> {$sqlerr}"; 
+           $sqlmessage = "Error: {$updatebook} <br> {$sqlerr}"; 
         }
          
     }
