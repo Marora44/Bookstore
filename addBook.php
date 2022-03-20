@@ -21,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     else if(strlen($fisbn) != 13) $isbnerr = "&nbsp;&nbsp;ISBN must be 13 numbers";
     else{
         $isbnquery = mysqli_query($dbConnect,"SELECT * FROM book WHERE isbn = {$fisbn}");
-        if (mysqli_num_rows($isbnquery) > 0) $isbnerr = "&nbsp;&nbsp;This book already exists in our database (You can update existing books <a href=\"updatebook.php\">here</a>)";
+        if (mysqli_num_rows($isbnquery) > 0) $isbnerr = "&nbsp;&nbsp;This book already exists in our database (You can update existing books <a href=\"updatebook/index.php\">here</a>)";
         else $isbn = $fisbn;
     }
     $ftitle = htmlspecialchars(trim($_POST['title']));
