@@ -8,6 +8,7 @@ $_SESSION['id'] = 1;
 
 if(isset($_SESSION['isbn'])){
     $isbn = $_SESSION['isbn'];
+    unset($_SESSION['isbn']);
 }
 else{
     header("index.php");
