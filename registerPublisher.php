@@ -12,7 +12,7 @@
 			</div>
             <div class="input-group">
 				<label>Publisher Name:			</label>
-				<input type="text" name="name">
+				<input type="text" name="publishername">
 			</div>
 			<div class="input-group">
 				<label>Password:		</label>
@@ -23,7 +23,7 @@
 				<input type="password" name="password_2">
 			</div>
 			<div class="input-group">
-				<button type="submit" class="btn" name="reg_user">Sign Up</button>
+				<button type="submit" class="btn" name="reg_publisher">Sign Up</button>
 			</div>
 			<br>
 			<div>
@@ -35,3 +35,45 @@
 		</form>
 	</div>
 </html>
+
+<?php
+    require_once "config.php";
+
+	//triggers when submit is clicked on the form
+	if (isset($_POST['reg_publisher'])) {
+		
+		//save the entered values on the form in variables
+        $publishername = mysqli_real_escape_string($dbConnect, $_POST['publishername']);
+        $password_1 = mysqli_real_escape_string($dbConnect, $_POST['password_1']);
+        $password_2 = mysqli_real_escape_string($dbConnect, $_POST['password_2']);
+		
+		//check if any variables are empty and make sure that the passwords match
+		if(empty($publishername)) { array_push($errors, "&nbsp;&nbsp;Enter a publisher name."); }
+		if(empty($password_1)) { array_push($errors, "&nbsp;&nbsp;Enter a password."); }
+		if($password_1 != $password_2) { array_push($errors, "&nbsp;&nbsp;Passwords do not match."); }
+		
+		//check if a member with the same username already exists
+		$username_exists_query = "SELECT * FROM AccountHolder WHERE username = '$username' LIMIT 1";
+		$result = mysqli_query($dbConnect, $username_exists_query);
+		$member = mysqli_fetch_assoc($result);
+		
+		if($member) {
+			if($member['username'] === $username) {
+				array_push($errors, "Username already taken.");
+			}
+		}
+		
+		//check if any errors exist
+		if(count($errors) == 0) {			
+			//insert the Member information into the AccountHolders table
+			$member_query = "INSERT INTO AccountHolder (username,password,isMember,firstname,lastname) VALUES(\"{$username}\",\"{$password}\",{$isMember},\"{$firstname}\",{$lastname}";
+			mysqli_query($db2, $member_query);	
+		}
+		else {
+			//display errors
+			foreach($errors as $error) {
+				print($error . "<br>");
+			}
+		}
+	}
+?>
