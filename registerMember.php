@@ -78,14 +78,20 @@
 		//check if any errors exist
 		if(count($errors) == 0) {			
 			//insert the Member information into the AccountHolders table
-			$member_query = "INSERT INTO AccountHolder (username,password,isMember,firstname,lastname) VALUES(\"{$username}\",\"{$password}\",{$isMember},\"{$firstname}\",{$lastname}";
-			mysqli_query($db2, $member_query);	
+			$member_query = "INSERT INTO AccountHolder (username,password,isMember,firstname,lastname) VALUES('$username', '$password', '$isMember', '$firstname', '$lastname')";
+            if(mysqli_query($dbConnect, $member_query)) { array_push($messages, "&nbsp;&nbsp;Success."); }
+            else{
+                array_push($messages, mysqli_error($dbConnect));
+             }	
 		}
 		else {
 			//display errors
 			foreach($errors as $error) {
 				print($error . "<br>");
 			}
+            foreach($messages as $message) {
+                print($message . "<br>");
+            }
 		}
 	}
 ?>

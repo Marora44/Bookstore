@@ -52,22 +52,22 @@
 		if(empty($password_1)) { array_push($errors, "&nbsp;&nbsp;Enter a password."); }
 		if($password_1 != $password_2) { array_push($errors, "&nbsp;&nbsp;Passwords do not match."); }
 		
-		//check if a member with the same username already exists
-		$username_exists_query = "SELECT * FROM AccountHolder WHERE username = '$username' LIMIT 1";
-		$result = mysqli_query($dbConnect, $username_exists_query);
-		$member = mysqli_fetch_assoc($result);
+		//check if a publisher with the same username already exists
+		$publisher_exists_query = "SELECT * FROM Publisher WHERE name = '$publishername' LIMIT 1";
+		$result = mysqli_query($dbConnect, $publisher_exists_query);
+		$publisher = mysqli_fetch_assoc($result);
 		
-		if($member) {
-			if($member['username'] === $username) {
-				array_push($errors, "Username already taken.");
+		if($publisher) {
+			if($publisher['name'] === $publisherame) {
+				array_push($errors, "Publisher name already taken.");
 			}
 		}
 		
 		//check if any errors exist
 		if(count($errors) == 0) {			
 			//insert the Member information into the AccountHolders table
-			$member_query = "INSERT INTO AccountHolder (username,password,isMember,firstname,lastname) VALUES(\"{$username}\",\"{$password}\",{$isMember},\"{$firstname}\",{$lastname}";
-			mysqli_query($db2, $member_query);	
+			$member_query = "INSERT INTO Publisher (password, name) VALUES('$password', '$publishername')";
+			mysqli_query($dbConnect, $member_query);	
 		}
 		else {
 			//display errors
