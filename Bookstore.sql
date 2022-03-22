@@ -41,6 +41,7 @@ create table Book (
   isDigital boolean,      
   isPhysical boolean,     
   pubID int,
+  quantity int,
   primary key(isbn),
   foreign key (pubID) references Publisher(id),
   foreign key (authorID) references Author(id)
