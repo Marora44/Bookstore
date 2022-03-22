@@ -1,15 +1,14 @@
 <?php
-$headerOutput = "<h1> Welcome to the Online Bookstore</h1>";
-include ('header.php'); 
 
+//include ('header.php');
 require_once "config.php";
 //for testing
 $_SESSION['userMode'] = 'pub';
 $_SESSION['id'] = 1;
 
 $isbn = $title = $genre = "";
-//$isdigital = $isphysical = 0;
-$isbnerr = $titleerr = $authorerr = $genreerr = $mediumerr = $priceerr = $passerr = "";
+$isdigital = $isphysical = 0;
+$isbnerr = $titleerr = $authorerr = $genreerr = $mediumerr = $priceerr = $passerr = ""; //variables for error messages
 $authorID = 0;
 $price = 0.00;
 $fisbn = $ftitle = $fgenre = $fauthid = $fprice = $fdigit = $fphys = $fpass = ""; //values entered in the html form
@@ -20,12 +19,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($fisbn)) $isbnerr = "&nbsp;&nbsp;Please enter an ISBN";
     else if(preg_match("/^[0-9]*$/", $fisbn)== false) $isbnerr = "&nbsp;&nbsp;ISBN must contain only numbers";
     else if(strlen($fisbn) != 13) $isbnerr = "&nbsp;&nbsp;ISBN must be 13 numbers";
-    else $isbn = $fisbn;
+    else{
+        $isbnquery = mysqli_query($dbConnect,"SELECT * FROM book WHERE isbn = {$fisbn}");
+        if (mysqli_num_rows($isbnquery) > 0) $isbnerr = "&nbsp;&nbsp;This book already exists in our database (You can update existing books <a href=\"updatebook/index.php\">here</a>)";
+        else $isbn = $fisbn;
+    }
     $ftitle = htmlspecialchars(trim($_POST['title']));
     if(empty($ftitle)) $titleerr = "&nbsp;&nbsp;Please enter a title";
     else $title = $ftitle;
     if (array_key_exists('author',$_POST))$fauthID = htmlspecialchars(trim($_POST['author']));
-    if(empty($fauthID)) $authorerr = "&nbsp;&nbsp;Please select an author";
+    if(empty($fauthID)) $authorerr = "&nbsp;&nbsp;Please select an author (Don't see your author? Add it <a href=\"addauthor.php\">here</a>)";
     else $authorID = intval($fauthID);
     $fgenre = htmlspecialchars(trim($_POST['genre']));
     if(empty($fgenre)) $genreerr = "&nbsp;&nbsp;Please enter a genre";
@@ -34,8 +37,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if (array_key_exists('isphysical',$_POST)) $fphys = htmlspecialchars(trim($_POST['isphysical']));
     if (empty($fdigit) && empty($fphys)) $mediumerr = "Please select at least one";
     else {
-        $isdigital = !empty($fdigit) ? 1 : 0;
-        $isphysical = !empty($fphys) ? 1 : 0;
+        $isdigital = intval(!empty($fdigit));
+        $isphysical = intval(!empty($fphys));
     } 
     $fprice = htmlspecialchars($_POST['price']);
     if(empty($fprice)) $priceerr = "&nbsp;&nbsp;Please enter a valid price";
@@ -61,16 +64,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
 }
 
-
 ?>
 
 <html>
 <title>Add a Book</title>
 
 <body>
-    <div>
+    <!-- <div>
 		<h1><a href="index.php"> Home </a></h1>
-	</div>
+	</div> -->
     <h1>Add a Book</h1>
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -87,11 +89,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
             mysqli_free_result($result);
             ?>
-        </select><?php echo $authorerr ?>&nbsp;&nbsp;(Don't see your author? Add it <a href="addauthor.php">here</a>)<br><br>
+        </select><?php echo $authorerr ?><br><br>
         Genre: <input type="text" name="genre" size="25" value=<?php echo "\"{$fgenre}\"" ?>><?php echo $genreerr?><br><br>
         <p style="margin-bottom: 0.5em; margin-top:0cm">Medium: <?php echo $mediumerr?></p>
-        &ensp;<input type="checkbox" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <?php echo $fphys?><br>
-        &ensp;<input type="checkbox" name="isdigital" value = "checked" <?php echo $fdigit?>> Digital <?php echo $fdigit?><br><br>
+        &ensp;<input type="checkbox" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <br>
+        &ensp;<input type="checkbox" name="isdigital" value = "checked" <?php echo $fdigit?>> Digital <br><br>
         Price: <input type="number" name="price" size="8" min="0.01" max="10000.00" step="0.01" value=<?php echo $fprice ?>><?php echo $priceerr?><br><br>
         Publisher ID: <input type="text" name="id" value="<?php echo $_SESSION['id'];?>" disabled><br><br>
         Password: <input type="password" name="password"><?php echo $passerr?><br><br>
