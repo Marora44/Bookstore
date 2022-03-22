@@ -6,7 +6,7 @@
 	?>
 	<div class="page">
 		<form method="post" action="registerMember.php">
-			<?php include ('errors.php'); ?>
+			<?php include ('errors.php'); include ('messages.php'); ?>
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
@@ -56,6 +56,8 @@
         $username = mysqli_real_escape_string($dbConnect, $_POST['username']);
         $password_1 = mysqli_real_escape_string($dbConnect, $_POST['password_1']);
         $password_2 = mysqli_real_escape_string($dbConnect, $_POST['password_2']);
+		//they will be registering as a member
+		$isMember = 1;
 		
 		//check if any variables are empty and make sure that the passwords match
 		if(empty($firstname)) { array_push($errors, "&nbsp;&nbsp;Enter a first name."); }
@@ -78,10 +80,16 @@
 		//check if any errors exist
 		if(count($errors) == 0) {			
 			//insert the Member information into the AccountHolders table
-			$member_query = "INSERT INTO AccountHolder (username,password,isMember,firstname,lastname) VALUES('$username', '$password', '$isMember', '$firstname', '$lastname')";
-            if(mysqli_query($dbConnect, $member_query)) { array_push($messages, "&nbsp;&nbsp;Success."); }
+			$member_query = "INSERT INTO AccountHolder(username,password,isMember,firstname,lastname) VALUES('$username','$password_1','$isMember','$firstname','$lastname')";
+            if(mysqli_query($dbConnect, $member_query)) { 
+				array_push($messages, "&nbsp;&nbsp;Success.");
+				//diplay messages
+				foreach($messages as $message) {
+				print($message . "<br>");
+				}
+			}
             else{
-                array_push($messages, mysqli_error($dbConnect));
+                array_push($errors, mysqli_error($dbConnect));
              }	
 		}
 		else {
@@ -89,9 +97,6 @@
 			foreach($errors as $error) {
 				print($error . "<br>");
 			}
-            foreach($messages as $message) {
-                print($message . "<br>");
-            }
 		}
 	}
 ?>

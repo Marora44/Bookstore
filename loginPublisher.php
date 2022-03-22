@@ -9,7 +9,7 @@
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
-			<?php include ('errors.php'); ?>
+			<?php include ('errors.php'); include ('messages.php'); ?>
 			<div class="input-group">
 				<label>Publisher ID:	</label>
 				<input type="id" name="id">
@@ -73,7 +73,7 @@
 			$id = (int) $publisher['id'];
 		}
 		else {
-			// display errors
+			//display errors
 			foreach($errors as $error) {
 				print($error . "<br>");
 			}

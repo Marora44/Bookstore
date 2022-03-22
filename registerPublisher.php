@@ -6,7 +6,7 @@
 	?>
 	<div class="page">
 		<form method="post" action="registerPublisher.php">
-			<?php include ('errors.php'); ?>
+			<?php include ('errors.php'); include ('messages.php'); ?>
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
@@ -66,8 +66,17 @@
 		//check if any errors exist
 		if(count($errors) == 0) {			
 			//insert the Member information into the AccountHolders table
-			$member_query = "INSERT INTO Publisher (password, name) VALUES('$password', '$publishername')";
-			mysqli_query($dbConnect, $member_query);	
+			$publisher_query = "INSERT INTO Publisher (password, name) VALUES('$password_1', '$publishername')";
+			if(mysqli_query($dbConnect, $publisher_query)) { 
+				array_push($messages, "&nbsp;&nbsp;Success.");
+				//diplay messages
+				foreach($messages as $message) {
+				print($message . "<br>");
+				}
+			}
+            else{
+                array_push($errors, mysqli_error($dbConnect));
+             }	
 		}
 		else {
 			//display errors
