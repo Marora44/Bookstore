@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($ftitle)) $titleerr = "&nbsp;&nbsp;Please enter a title";
     else $title = $ftitle;
     if (array_key_exists('author',$_POST))$fauthID = htmlspecialchars(trim($_POST['author']));
-    if(empty($fauthID)) $authorerr = "&nbsp;&nbsp;Please select an author (Don't see your author? Add it <a href=\"addauthor.php\">here</a>)";
+    if(empty($fauthID)) $authorerr = "&nbsp;&nbsp;Please select an author";
     else $authorID = intval($fauthID);
     $fgenre = htmlspecialchars(trim($_POST['genre']));
     if(empty($fgenre)) $genreerr = "&nbsp;&nbsp;Please enter a genre";
@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_free_result($passres);
     }
     if(empty($isbnerr.$titleerr.$authorerr.$genreerr.$mediumerr.$priceerr.$passerr)){
-        $addbook = "INSERT INTO book(isbn,title,authorID,genre,price,isDigital,isPhysical,pubID) VALUES(\"{$isbn}\",\"{$title}\",{$authorID},\"{$genre}\",{$price},{$isdigital},{$isphysical},{$_SESSION['id']})";
+        $addbook = "INSERT INTO book(isbn,title,authorID,genre,price,isDigital,isPhysical,pubID,quantity) VALUES(\"{$isbn}\",\"{$title}\",{$authorID},\"{$genre}\",{$price},{$isdigital},{$isphysical},{$_SESSION['id']},10)";
         if(mysqli_query($dbConnect,$addbook)) $sqlmessage = "Success";
         else{
            $sqlerr = mysqli_error($dbConnect);
@@ -89,7 +89,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
             mysqli_free_result($result);
             ?>
-        </select><?php echo $authorerr ?><br><br>
+        </select><?php echo $authorerr ?>&nbsp;(Don't see your author? Add it <a href="addauthor.php">here</a>)<br><br>
         Genre: <input type="text" name="genre" size="25" value=<?php echo "\"{$fgenre}\"" ?>><?php echo $genreerr?><br><br>
         <p style="margin-bottom: 0.5em; margin-top:0cm">Medium: <?php echo $mediumerr?></p>
         &ensp;<input type="checkbox" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <br>
