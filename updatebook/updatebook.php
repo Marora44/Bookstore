@@ -68,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_free_result($passres);
     }
     if(empty($isbnerr.$titleerr.$authorerr.$genreerr.$mediumerr.$priceerr.$passerr)){
-        $updatebook = "UPDATE book SET title = \"{$title}\", authorID = \"{$authorID}\", genre = \"{$genre}\", price = {$price}, isDigital = {$isdigital}, isPhysical = {$isphysical}";
+        $updatebook = "UPDATE book SET title = \"{$title}\", authorID = \"{$authorID}\", genre = \"{$genre}\", price = {$price}, isDigital = {$isdigital}, isPhysical = {$isphysical} WHERE isbn = \"{$isbn}\"";
         if(mysqli_query($dbConnect,$updatebook)) $sqlmessage = "Success";
         else{
            $sqlerr = mysqli_error($dbConnect);
