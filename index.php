@@ -17,10 +17,6 @@
 	<div style="text-align:center">    
 		<h3><a href="registerPublisher.php">Publisher Registration</a><h3>
 	</div>
-    </div>
-    <div style="text-align:center">    
-		<h3><a href="addBook.php">TEST FOR ADD BOOK</a><h3>
-	</div>
 </html>
 
 <?php

@@ -65,7 +65,7 @@
 			}
 		}
 		
-		//check to see if we need ot print out errors
+		//check to see if we need to print out errors
 		if(count($errors) == 0) {			
 			
 			///save the publisher as a session variable
