@@ -2,7 +2,7 @@
 	<?php
 		$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
 						<h3><p> Member Login Page:</p></h3>";
-		//include ('header.php'); 
+		include ('header.php'); 
 	?>
 	<div class="page">
 		<form method="post" action="loginMember.php">
