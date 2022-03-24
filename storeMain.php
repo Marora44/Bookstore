@@ -30,7 +30,7 @@ require_once "config.php";
                 <td><?= $row['isbn'] ?></td>
                 <td><?= $row['title'] ?></td>
                 <td><?= $authorName ?></td>
-                <td><?= $row['price'] ?></td>
+                <td>$<?= $row['price'] ?></td>
             </tr>
         <?php 
         endwhile; 
