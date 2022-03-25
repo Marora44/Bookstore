@@ -82,7 +82,7 @@ create table BookOrder (
   quantity int,
   userID int,
   isPlaced boolean,
-  primary key(id),
+  primary key(id, isbn),
   foreign key (isbn) references Book(isbn),
   foreign key (userID) references User(id)
 );
