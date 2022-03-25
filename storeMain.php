@@ -8,21 +8,29 @@ require_once "config.php";
 
 $isbn = "";
 $quantity = $orderID = 0;
+if(isset($_SESSION['id'])){
+    $userID = $_SESSION['id'];
+}
+else die("something went wrong");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $isbn = $_POST['isbn'];
     $quantity = $_POST['quantity'];
-    $checkorders = mysqli_query($dbConnect,"SELECT id FROM bookorder WHERE userID = {$_SESSION['id']} AND isPlaced = FALSE"); //check if the user has an active cart (unplaced order)
-    if(mysqli_num_rows($checkorders) > 0) $orderID = mysqli_fetch_assoc($checkorders)['id'];
+    $checkOrders = mysqli_query($dbConnect,"SELECT id FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE"); //check if the user has an active cart (unplaced order)
+    if(mysqli_num_rows($checkOrders) > 0) $orderID = mysqli_fetch_assoc($checkOrders)['id'];
     else{
         $highestID = mysqli_query($dbConnect,"SELECT MAX(id) maxID FROM bookorder");
         if(mysqli_num_rows($highestID) < 1) $orderID = 1;
         else $orderID = mysqli_fetch_assoc($highestID)['maxID'] + 1;
     }
+    mysqli_free_result($checkOrders);
+    $numInCart = mysqli_query($dbConnect,"SELECT quantity FROM bookorder WHERE id = {$orderID} AND isbn = \"{$isbn}\"");
+    if(mysqli_num_rows($numInCart) < 1) $sqlmessage = mysqli_query($dbConnect,"INSERT INTO bookorder(id,isbn,quantity,userID,isPlaced) VALUES({$orderID},\"{$isbn}\",{$quantity},{$userID},FALSE)");
+    else $sqlmessage = mysqli_query($dbConnect,"UPDATE bookorder SET quantity = quantity + {$quantity} WHERE id = {$orderID} AND isbn = \"{$isbn}\"");
+
+    
     /*
         to do:
-        check if book in cart
-        add/update cart
         update stock in book table
     */
 }
