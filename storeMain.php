@@ -1,7 +1,31 @@
 <?php
+session_start();
+
+//testing
+$_SESSION['id'] = 1;
 
 require_once "config.php";
 
+$isbn = "";
+$quantity = $orderID = 0;
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $isbn = $_POST['isbn'];
+    $quantity = $_POST['quantity'];
+    $checkorders = mysqli_query($dbConnect,"SELECT id FROM bookorder WHERE userID = {$_SESSION['id']} AND isPlaced = FALSE"); //check if the user has an active cart (unplaced order)
+    if(mysqli_num_rows($checkorders) > 0) $orderID = mysqli_fetch_assoc($checkorders)['id'];
+    else{
+        $highestID = mysqli_query($dbConnect,"SELECT MAX(id) maxID FROM bookorder");
+        if(mysqli_num_rows($highestID) < 1) $orderID = 1;
+        else $orderID = mysqli_fetch_assoc($highestID)['maxID'] + 1;
+    }
+    /*
+        to do:
+        check if book in cart
+        add/update cart
+        update stock in book table
+    */
+}
 
 ?>
 
@@ -44,7 +68,7 @@ require_once "config.php";
                 <td>
                     <form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
-                        <input style="width: 4em" type="number" step="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
+                        <input name="quantity" style="width: 4em" type="number" step="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
                         &nbsp;
                         <input type="submit" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?>>
                     </form>
