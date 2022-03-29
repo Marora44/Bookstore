@@ -2,7 +2,7 @@
 require_once "config.php";
 
 $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
-						<h3><p> Order History</p></h3>";
+            <h3><p> Order History</p></h3>";
 include ('header.php');
 //manual testing, userid == 2
 $_SESSION['id'] = 1;
@@ -48,7 +48,8 @@ $check = 0;
                       echo "<td>&nbsp".$price."</td></tr><td>";
                     }
                     $price = (($row['price']) * $quantity);
-                    echo "<tr><td><a href=orderhistory.php>".$orderid."</a>&nbsp</td><td>&nbsp".$orderdate."&nbsp</td>";
+                    echo "<tr><td><a href=orderhistory.php?orderid=$orderid>".$orderid."</a>&nbsp</td><td>&nbsp".$orderdate."&nbsp</td>";
+                    
                     #echo"&nbsp".$row['price'];
                     #echo"&nbsp".$row['quantity'];
                     #echo $bookorderisbn;
