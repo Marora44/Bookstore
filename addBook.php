@@ -6,6 +6,8 @@ require_once "config.php";
 $_SESSION['userMode'] = 'pub';
 $_SESSION['id'] = 1;
 
+if($_SESSION['userMode'] != 'pub') header("location: index.php");
+
 $isbn = $title = $genre = "";
 $isdigital = $isphysical = 0;
 $isbnerr = $titleerr = $authorerr = $genreerr = $mediumerr = $priceerr = $passerr = ""; //variables for error messages
