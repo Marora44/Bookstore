@@ -33,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 <html>
-    <title>Add an Authork</title>
+    <title>Add an Author</title>
     <body>
         <h1>Add an Author</h1>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
