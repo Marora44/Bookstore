@@ -88,13 +88,8 @@
                 array_push($errors, mysqli_error($dbConnect));
             }
 
-			//find userID
-			$userID_query = "SELECT MAX(id) FROM User";
-			$resultID = mysqli_query($dbConnect, $userID_query);
-			$userID = mysqli_fetch_assoc($resultID);
-
 			//insert the Member information into the AccountHolders table
-			$member_query = "INSERT INTO AccountHolder(username,password,isMember,firstname,lastname,userID) VALUES('$username','$password_1','$isMember','$firstname','$lastname','$userID')";
+			$member_query = "INSERT INTO AccountHolder(username,password,isMember,firstname,lastname,userID) VALUES('$username','$password_1','$isMember','$firstname','$lastname',(SELECT MAX(id) FROM User))";
             if(mysqli_query($dbConnect, $member_query)) { 
 				array_push($messages, "&nbsp;&nbsp;Success.");
 			}
