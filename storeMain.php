@@ -16,17 +16,21 @@ else die("something went wrong");
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $isbn = $_POST['isbn'];
     $quantity = $_POST['quantity'];
-    $checkOrders = mysqli_query($dbConnect,"SELECT id FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE"); //check if the user has an active cart (unplaced order)
-    if(mysqli_num_rows($checkOrders) > 0) $orderID = mysqli_fetch_assoc($checkOrders)['id'];
+    //check if the user has an active cart (unplaced order)
+    $checkOrders = mysqli_query($dbConnect,"SELECT id FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE");
+    //set the $orderID to the correct ID if a cart exists or creates an appropriate one if not
+    if(mysqli_num_rows($checkOrders) > 0) $orderID = mysqli_fetch_assoc($checkOrders)['id']; 
     else{
         $highestID = mysqli_query($dbConnect,"SELECT MAX(id) maxID FROM bookorder");
         if(mysqli_num_rows($highestID) < 1) $orderID = 1;
         else $orderID = mysqli_fetch_assoc($highestID)['maxID'] + 1;
     }
     mysqli_free_result($checkOrders);
-    $numInCart = mysqli_query($dbConnect,"SELECT quantity FROM bookorder WHERE id = {$orderID} AND isbn = \"{$isbn}\"");
+    //checks if the user already has at least one of the book in their cart alredy, if so update the quantity otherwise create a new entry for that book 
+    $numInCart = mysqli_query($dbConnect,"SELECT quantity FROM bookorder WHERE id = {$orderID} AND isbn = \"{$isbn}\""); 
     if(mysqli_num_rows($numInCart) < 1) $addToCart = mysqli_query($dbConnect,"INSERT INTO bookorder(id,isbn,quantity,userID,isPlaced) VALUES({$orderID},\"{$isbn}\",{$quantity},{$userID},FALSE)");
     else $addToCart = mysqli_query($dbConnect,"UPDATE bookorder SET quantity = quantity + {$quantity} WHERE id = {$orderID} AND isbn = \"{$isbn}\"");
+
     if($addToCart){
         $updateInventory = mysqli_query($dbConnect, "UPDATE book SET quantity = quantity - {$quantity} WHERE isbn = \"{$isbn}\"");
         if(!$updateInventory) die("error updating inventory");
