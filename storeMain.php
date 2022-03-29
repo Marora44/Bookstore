@@ -25,14 +25,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     mysqli_free_result($checkOrders);
     $numInCart = mysqli_query($dbConnect,"SELECT quantity FROM bookorder WHERE id = {$orderID} AND isbn = \"{$isbn}\"");
-    if(mysqli_num_rows($numInCart) < 1) $sqlmessage = mysqli_query($dbConnect,"INSERT INTO bookorder(id,isbn,quantity,userID,isPlaced) VALUES({$orderID},\"{$isbn}\",{$quantity},{$userID},FALSE)");
-    else $sqlmessage = mysqli_query($dbConnect,"UPDATE bookorder SET quantity = quantity + {$quantity} WHERE id = {$orderID} AND isbn = \"{$isbn}\"");
-
-    
-    /*
-        to do:
-        update stock in book table
-    */
+    if(mysqli_num_rows($numInCart) < 1) $addToCart = mysqli_query($dbConnect,"INSERT INTO bookorder(id,isbn,quantity,userID,isPlaced) VALUES({$orderID},\"{$isbn}\",{$quantity},{$userID},FALSE)");
+    else $addToCart = mysqli_query($dbConnect,"UPDATE bookorder SET quantity = quantity + {$quantity} WHERE id = {$orderID} AND isbn = \"{$isbn}\"");
+    if($addToCart){
+        $updateInventory = mysqli_query($dbConnect, "UPDATE book SET quantity = quantity - {$quantity} WHERE isbn = \"{$isbn}\"");
+        if(!$updateInventory) die("error updating inventory");
+    }
+    else die("error adding to cart");
 }
 
 ?>
