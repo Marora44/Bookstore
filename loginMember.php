@@ -70,7 +70,9 @@
 			
 			//save the member as a session variable
 			$_SESSION['member'] = $member;
+			$_SESSION['userMode'] = 'member';
 			$id = (int) $member['id'];
+			header('Location: memberLanding.php?id=' . $id);
 		}
 		else {
 			//display errors

@@ -78,19 +78,33 @@
 		}
 		
 		//check if any errors exist
-		if(count($errors) == 0) {			
+		if(count($errors) == 0) {
+			//create user
+			$user_query = "INSERT INTO User VALUES()";
+			if(mysqli_query($dbConnect, $user_query)) { 
+				array_push($messages, "&nbsp;&nbsp;ID Generated.");
+			}
+			else{
+                array_push($errors, mysqli_error($dbConnect));
+            }
+
+			//find userID
+			$userID_query = "SELECT MAX(id) FROM User";
+			$resultID = mysqli_query($dbConnect, $userID_query);
+			$userID = mysqli_fetch_assoc($resultID);
+
 			//insert the Member information into the AccountHolders table
-			$member_query = "INSERT INTO AccountHolder(username,password,isMember,firstname,lastname) VALUES('$username','$password_1','$isMember','$firstname','$lastname')";
+			$member_query = "INSERT INTO AccountHolder(username,password,isMember,firstname,lastname,userID) VALUES('$username','$password_1','$isMember','$firstname','$lastname','$userID')";
             if(mysqli_query($dbConnect, $member_query)) { 
 				array_push($messages, "&nbsp;&nbsp;Success.");
-				//diplay messages
-				foreach($messages as $message) {
-				print($message . "<br>");
-				}
 			}
             else{
                 array_push($errors, mysqli_error($dbConnect));
-             }	
+            }	
+			//diplay messages
+			foreach($messages as $message) {
+			print($message . "<br>");
+			}
 		}
 		else {
 			//display errors
