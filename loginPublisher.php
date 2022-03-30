@@ -11,8 +11,8 @@
 			</div>
 			<?php include ('errors.php'); include ('messages.php'); ?>
 			<div class="input-group">
-				<label>Publisher ID:	</label>
-				<input type="id" name="id">
+				<label>Publisher Name:	</label>
+				<input type="name" name="name">
 			</div>
 			<div class="input-group">
 				<label>Password:</label>
@@ -41,19 +41,21 @@
 <?php
     require_once "config.php";
 
+	session_start();
+
     //variable to not print out that publisher does not exist if there is information missing
     $DNE = 0;
 
     //this section handles when "submit" is clicked on the form
 	if (isset($_POST['sign_in'])) {
-		$id = mysqli_real_escape_string($dbConnect, $_POST['id']);
+		$name = mysqli_real_escape_string($dbConnect, $_POST['name']);
 		$password = mysqli_real_escape_string($dbConnect, $_POST['password']);
 		
-		if(empty($id)) { array_push($errors, "Enter a Publisher ID."); $DNE = 1;}
+		if(empty($name)) { array_push($errors, "Enter a Publisher Name."); $DNE = 1;}
 		if(empty($password)) { array_push($errors, "Enter a password."); $DNE = 1;}
 		
-		$id_exists_query = "SELECT * FROM Publisher WHERE id = '$id' LIMIT 1";
-		$result = mysqli_query($dbConnect, $id_exists_query);
+		$name_exists_query = "SELECT * FROM Publisher WHERE name = '$name' LIMIT 1";
+		$result = mysqli_query($dbConnect, $name_exists_query);
 		$publisher = mysqli_fetch_assoc($result);
 		
 		if(!$publisher && $DNE==0) {
@@ -70,7 +72,10 @@
 			
 			///save the publisher as a session variable
 			$_SESSION['publisher'] = $publisher;
+			$_SESSION['userMode'] = 'publisher';
 			$id = (int) $publisher['id'];
+			header('Location: publisherLanding.php?id=' . $id);
+			exit();
 		}
 		else {
 			//display errors

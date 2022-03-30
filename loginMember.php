@@ -41,6 +41,8 @@
 <?php
     require_once "config.php";
 
+	session_start();
+
     //variable to not print out that member does not exist if there is information missing
     $DNE = 0;
 
@@ -65,14 +67,14 @@
 			}
 		}
 		
-		//check to see if we need ot print out errors
+		//check to see if we need to print out errors
 		if(count($errors) == 0) {			
-			
 			//save the member as a session variable
 			$_SESSION['member'] = $member;
 			$_SESSION['userMode'] = 'member';
-			$id = (int) $member['id'];
+			$id = (int) $member['userID'];
 			header('Location: memberLanding.php?id=' . $id);
+			exit();
 		}
 		else {
 			//display errors

@@ -1,7 +1,10 @@
 <?php
-
-//include ('header.php');
+    $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+                    <h3><p> Member Landing Page</p></h3>";
+    include ('header.php'); 
 require_once "config.php";
+
+session_start();
 
 if (isset($_GET['id'])) {
 		
@@ -23,6 +26,23 @@ if (isset($_GET['id'])) {
 }
 
 //redirect off the page if userMode isn't member or id isn't valid
-//if($_SESSION['userMode'] != 'member' OR $in_all_member_id != True) header("location: index.php");
+if($in_all_member_id != True) header("location: index.php");
+if($_SESSION['userMode'] != 'member') header("location: index.php");
 
 ?>
+
+<html>
+    <div class="page">
+        <div>
+            <h1><a href="index.php"> Home </a></h1>
+        </div>
+	</div>
+    <div style="text-align:center">    
+        <h1><a href="storeMain.php">View Books</a></h1>
+        <h1>or</h1>
+        <h1><a href="show_orders.php">View Order History</a></h1>
+	</div>
+    <div style="text-align:center">    
+		<h3><a href="memberaccountmanage.php">Update Account Info (NEEDS TO BE MADE)</a><h3>
+	</div>
+</html>
