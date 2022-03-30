@@ -5,7 +5,7 @@
 		include ('header.php'); 
 	?>
 	<div class="page">
-		<form method="post" action="registerMember.php">
+		<form method="post" action="registerAccount.php">
 			<?php include ('errors.php'); include ('messages.php'); ?>
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
@@ -31,11 +31,11 @@
 				<input type="password" name="password_2">
 			</div>
 			<div class="input-group">
-				<button type="submit" class="btn" name="reg_member">Sign Up</button>
+				<button type="submit" class="btn" name="reg_account">Sign Up</button>
 			</div>
 			<br>
 			<div>
-				Want to login as a Member? <a href="loginMember.php"> Sign In </a>
+				Want to login as an Account Holder? <a href="loginAccount.php"> Sign In </a>
 			</div>
             <div>
                 Want to login as a Publisher? <a href="loginPublisher.php"> Sign In </a>
@@ -48,7 +48,7 @@
     require_once "config.php";
 
 	//triggers when submit is clicked on the form
-	if (isset($_POST['reg_member'])) {
+	if (isset($_POST['reg_account'])) {
 		
 		//save the entered values on the form in variables
         $firstname = mysqli_real_escape_string($dbConnect, $_POST['firstname']);
@@ -56,8 +56,8 @@
         $username = mysqli_real_escape_string($dbConnect, $_POST['username']);
         $password_1 = mysqli_real_escape_string($dbConnect, $_POST['password_1']);
         $password_2 = mysqli_real_escape_string($dbConnect, $_POST['password_2']);
-		//they will be registering as a member
-		$isMember = 1;
+		//they will be registering as an AccountHolder without a membership
+		$isMember = 0;
 		
 		//check if any variables are empty and make sure that the passwords match
 		if(empty($firstname)) { array_push($errors, "&nbsp;&nbsp;Enter a first name."); }
@@ -66,13 +66,13 @@
 		if(empty($password_1)) { array_push($errors, "&nbsp;&nbsp;Enter a password."); }
 		if($password_1 != $password_2) { array_push($errors, "&nbsp;&nbsp;Passwords do not match."); }
 		
-		//check if a member with the same username already exists
+		//check if a AccountHolder with the same username already exists
 		$username_exists_query = "SELECT * FROM AccountHolder WHERE username = '$username' LIMIT 1";
 		$result = mysqli_query($dbConnect, $username_exists_query);
-		$member = mysqli_fetch_assoc($result);
+		$account = mysqli_fetch_assoc($result);
 		
-		if($member) {
-			if($member['username'] === $username) {
+		if($account) {
+			if($account['username'] === $username) {
 				array_push($errors, "Username already taken.");
 			}
 		}
@@ -88,9 +88,9 @@
                 array_push($errors, mysqli_error($dbConnect));
             }
 
-			//insert the Member information into the AccountHolders table
-			$member_query = "INSERT INTO AccountHolder(username,password,isMember,firstname,lastname,userID) VALUES('$username','$password_1','$isMember','$firstname','$lastname',(SELECT MAX(id) FROM User))";
-            if(mysqli_query($dbConnect, $member_query)) { 
+			//insert the Account information into the AccountHolders table
+			$account_query = "INSERT INTO AccountHolder(username,password,isMember,firstname,lastname,userID) VALUES('$username','$password_1','$isMember','$firstname','$lastname',(SELECT MAX(id) FROM User))";
+            if(mysqli_query($dbConnect, $account_query)) { 
 				array_push($messages, "&nbsp;&nbsp;Success.");
 			}
             else{
