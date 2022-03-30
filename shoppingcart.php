@@ -3,7 +3,7 @@
 session_start();
 
 //testing
-//$_SESSION['id'] = 1;
+$_SESSION['id'] = 1;
 
 require_once "config.php";
 
@@ -18,7 +18,7 @@ if (isset($_SESSION['id'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isbn = $_POST['isbn'];
-    $id = $_SESSION['id'];
+    $id = $_POST['id'];
     $cartQuantity = $_POST['cQuantity'];
     $formQuantity = $_POST['fQuantity'];
     if (array_key_exists('del', $_POST)) {
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else die("error removing from cart");
     } else if (array_key_exists('update', $_POST)) {
         $amtRemoved = $cartQuantity - $formQuantity;
-        $updateCart = mysqli_query($dbConnect, "UPDATE bookorder SET quantity = {$formQuantity} WHERE isbn = \"{$isbn}\" AND id = {$id}");
+        $updateCart = mysqli_query($dbConnect, "UPDATE bookorder SET quantity = {$formQuantity} WHERE isbn = \"{$isbn}\" AND id = {$id}"); 
         if ($updateCart) {
             $updateInventory = mysqli_query($dbConnect, "UPDATE book SET quantity = quantity + {$amtRemoved} WHERE isbn = \"{$isbn}\"");
             if (!$updateInventory) die("error updating inventory");
@@ -53,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 <?php
-    $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+/*     $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
                  <h3><p>Your Cart</p></h3>";
-    include('header.php');
+    include('header.php'); */
     ?>
     <table width="40%">
         <tr>
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="hidden" name="isbn" value="<?= $cartRow['isbn'] ?>" />
                         <input type="hidden" name="id" value="<?= $cartRow['id'] ?>" />
                         <input type="hidden" name="cQuantity" value="<?= $cartRow['quantity'] ?>" />
-                        <input name="fQuantity" value="<?= $cartRow['quantity'] ?>" style="width: 4em" type="number" step="1" max="<?= $bookRow['quantity'] + $cartRow['quantity'] ?>">
+                        <input name="fQuantity" value="<?= $cartRow['quantity'] ?>" style="width: 4em" type="number" step="1" max="<?= $bookRow['quantity'] + $cartRow['quantity'] ?>" min="1">
                         &nbsp;
                         <input type="submit" name="update" value="Update">
                     </form>

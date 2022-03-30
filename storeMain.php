@@ -52,9 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <?php
-    $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+/*     $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
                  <h3><p>All Books</p></h3>";
-    include('header.php');
+    include('header.php'); */
     ?>
     <table width="70%">
         <tr>
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <td>
                     <form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
-                        <input name="quantity" style="width: 4em" type="number" step="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
+                        <input name="quantity" style="width: 4em" type="number" step="1" min = "1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
                         &nbsp;
                         <input type="submit" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?>>
                     </form>
