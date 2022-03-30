@@ -1,6 +1,7 @@
 <?php
 
 require_once "config.php";
+
 session_start();
 
 // if (isset($_GET['id'])) {
@@ -29,7 +30,7 @@ if ($_SESSION['userMode'] != 'account') header("location: index.php");
 ?>
 
 <html>
-<?php 
+<?php
 $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
                  <h3><p>Account Landing Page</p></h3>";
 include('header.php');
@@ -40,7 +41,7 @@ include('header.php');
     <h1><a href="show_orders.php">View Order History</a></h1>
 </div>
 <div style="text-align:center">
-    <h3><a href="memberaccountmanage.php">Update Account Info (NEEDS TO BE MADE)</a>
+    <h3><a href="accountManage.php">Update Account Info</a>
         <h3>
 </div>
 
