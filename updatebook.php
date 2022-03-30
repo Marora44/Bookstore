@@ -1,12 +1,9 @@
 <?php
 session_start();
-//include ('header.php');
-require_once "config.php";
-//for testing
-$_SESSION['userMode'] = 'pub';
-$_SESSION['id'] = 1;
 
+require_once "../config.php";
 
+if($_SESSION['userMode'] != 'publisher') header("location: ../index.php");
 
 if (isset($_SESSION['isbn'])) {
     $isbn = $_SESSION['isbn'];
@@ -15,6 +12,7 @@ if (isset($_SESSION['isbn'])) {
     die("something went wrong");
 }
 
+$publisherName = $_SESSION['publisherName'];
 
 $title = $genre = "";
 $isdigital = $isphysical = 0;
@@ -82,12 +80,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 
 <html>
+    <?php
+        $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+                        <h3><p> $publisherName's Publisher Landing Page</p></h3>";
+        include ('header.php');
+    ?>
 <title>Update a Book</title>
 
-<body>
-    <!-- <div>
-		<h1><a href="index.php"> Home </a></h1>
-	</div> -->
+<div class="page">
+    <div>
+		<h1><a href="../index.php"> Home </a></h1>
+	</div>
     <h1>Update a Book</h1>
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -112,12 +115,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         Price: <input type="number" name="price" size="8" min="0.01" max="10000.00" step="0.01" value=<?php echo $fprice ?>><?php echo $priceerr?><br><br>
         Publisher ID: <input type="text" name="id" value="<?php echo $_SESSION['id'];?>" disabled><br><br>
         Password: <input type="password" name="password"><?php echo $passerr?><br><br>
-        <input type="submit" value="Add">
+        <input type="submit" value="Update">
     </form>
     <br><br><br>
     <?php echo $sqlmessage?>
 
 
-</body>
+        </div>
 
 </html>
