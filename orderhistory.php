@@ -13,7 +13,7 @@ $userid = $_SESSION['id'];
 $result = false;
 $book = "";
 
-$query = "SELECT * from bookorder natural join book where id = $orderid";
+$query = "SELECT * from bookorder where id = $orderid";
 
 // if($_SERVER["REQUEST_METHOD"] == "POST"){
 //     $fprice = htmlspecialchars($_POST['price']);
@@ -49,7 +49,12 @@ $query = "SELECT * from bookorder natural join book where id = $orderid";
             while ($row = mysqli_fetch_assoc($result)) {
                 #$selected = $result == $row['isbn'] ? "selected" : "";
                 $isbn = $row['isbn'];
-                $book = $row['title'];
+                $querytitle = "SELECT title from book where isbn = $isbn";
+                $resulttitle = mysqli_query($dbConnect, $querytitle);
+                while ($rowtitle = mysqli_fetch_assoc($resulttitle)){
+                  $book = $rowtitle['title'];
+                }
+                
                 #echo "$orderid &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
                 #echo "$isbn &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
                 ?>
@@ -59,9 +64,13 @@ $query = "SELECT * from bookorder natural join book where id = $orderid";
                 ?>
                 <?php
                 $quantity = $row['quantity'];
-                $price = $row['price'] * $quantity;
+                $queryprice = "SELECT price from book where isbn = $isbn";
+                $resultprice = mysqli_query($dbConnect, $queryprice);
+                while ($rowprice = mysqli_fetch_assoc($resultprice)){
+                $price = $rowprice['price'] * $quantity;
+                }
                 #echo "$quantity &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                echo "<tr><td>".$isbn."</a>&nbsp</td><td>&nbsp".$book."&nbsp</td><td>".$quantity."&nbsp</td><td>".$price."&nbsp</td>";
+                echo "<tr><td>".$isbn."&nbsp</td><td>&nbsp<a href=book.php?isbn=$isbn>".$book."</a>&nbsp</td><td>".$quantity."&nbsp</td><td>".$price."&nbsp</td>";
                 ?>
                 <br>
                 <?php
