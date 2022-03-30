@@ -1,12 +1,12 @@
 <?php
-
+session_start();
 //include ('header.php');
 require_once "config.php";
 //for testing
-$_SESSION['userMode'] = 'pub';
-$_SESSION['id'] = 1;
+//$_SESSION['userMode'] = 'pub';
+//$_SESSION['id'] = 1;
 
-if($_SESSION['userMode'] != 'pub') header("location: index.php");
+if($_SESSION['userMode'] != 'publisher') header("location: index.php");
 
 $isbn = $title = $genre = "";
 $isdigital = $isphysical = 0;
@@ -69,13 +69,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 
 <html>
+<?php
+		$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
+						<h3><p>Add a Book</p></h3>";
+		include ('header.php'); 
+	?>
 <title>Add a Book</title>
 
 <body>
     <!-- <div>
 		<h1><a href="index.php"> Home </a></h1>
 	</div> -->
-    <h1>Add a Book</h1>
+    <!-- <h1>Add a Book</h1> -->
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         ISBN: <input type="text" name="isbn" size="25" maxlength="13" value=<?php echo $fisbn ?>><?php echo $isbnerr?><br><br>
