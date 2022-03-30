@@ -3,8 +3,6 @@ session_start();
 //include ('header.php');
 require_once "../config.php";
 //for testing
-$_SESSION['userMode'] = 'pub';
-$_SESSION['id'] = 1;
 
 $isbn = $fisbn = $isbnerr = "";
 
