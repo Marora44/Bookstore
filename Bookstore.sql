@@ -83,7 +83,7 @@ create table BookOrder (
   userID int,
   isDigital boolean,
   isPlaced boolean,
-  primary key(id, isbn),
+  primary key(id, isbn, isDigital),
   foreign key (isbn) references Book(isbn),
   foreign key (userID) references User(id)
 );
