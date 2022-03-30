@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 
 session_start();
 
@@ -6,6 +7,15 @@ require_once "config.php";
 
 $publisherName = $_SESSION['publisherName'];
 
+=======
+session_start();
+//include ('header.php');
+require_once "config.php";
+//for testing
+//$_SESSION['userMode'] = 'pub';
+//$_SESSION['id'] = 1;
+
+>>>>>>> df3b8df447374528d247d1efbbc719966caffc1c
 if($_SESSION['userMode'] != 'publisher') header("location: index.php");
 
 $isbn = $title = $genre = "";
@@ -69,6 +79,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 
 <html>
+<<<<<<< HEAD
     <?php
         $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
                         <h3><p> $publisherName's Publisher Landing Page</p></h3>";
@@ -76,6 +87,47 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     ?>
     <div class="page">
         <title>Add a Book</title>
+=======
+<?php
+		$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
+						<h3><p>Add a Book</p></h3>";
+		include ('header.php'); 
+	?>
+<title>Add a Book</title>
+
+<body>
+    <!-- <div>
+		<h1><a href="index.php"> Home </a></h1>
+	</div> -->
+    <!-- <h1>Add a Book</h1> -->
+    <h4>All fields are required.</h4>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        ISBN: <input type="text" name="isbn" size="25" maxlength="13" value=<?php echo $fisbn ?>><?php echo $isbnerr?><br><br>
+        Title: <input type="text" name="title" size="25" maxlength="50" value=<?php echo "\"{$ftitle}\"" ?>><?php echo $titleerr?><br><br>
+        Author: <select name="author">
+            <option <?php if ($authorID == 0) echo "selected";?> disabled hidden>Select an author</option>
+            <?php
+            $query = "SELECT id, firstname, lastname FROM author";
+            $result = mysqli_query($dbConnect, $query);
+            while ($row = mysqli_fetch_assoc($result)) {
+                $selected = $authorID == $row['id'] ? "selected" : "";
+                echo "<option {$selected} value = \"{$row['id']}\">{$row['firstname']} {$row['lastname']}</option>\n";
+            }
+            mysqli_free_result($result);
+            ?>
+        </select><?php echo $authorerr ?>&nbsp;(Don't see your author? Add it <a href="addauthor.php">here</a>)<br><br>
+        Genre: <input type="text" name="genre" size="25" value=<?php echo "\"{$fgenre}\"" ?>><?php echo $genreerr?><br><br>
+        <p style="margin-bottom: 0.5em; margin-top:0cm">Medium: <?php echo $mediumerr?></p>
+        &ensp;<input type="checkbox" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <br>
+        &ensp;<input type="checkbox" name="isdigital" value = "checked" <?php echo $fdigit?>> Digital <br><br>
+        Price: <input type="number" name="price" size="8" min="0.01" max="10000.00" step="0.01" value=<?php echo $fprice ?>><?php echo $priceerr?><br><br>
+        Publisher ID: <input type="text" name="id" value="<?php echo $_SESSION['id'];?>" disabled><br><br>
+        Password: <input type="password" name="password"><?php echo $passerr?><br><br>
+        <input type="submit" value="Add">
+    </form>
+    <br><br><br>
+    <?php echo $sqlmessage?>
+>>>>>>> df3b8df447374528d247d1efbbc719966caffc1c
 
         <body>
             <div>

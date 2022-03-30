@@ -1,45 +1,7 @@
-<html>
-	<?php
-		$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
-						<h3><p> Publisher Login Page:</p></h3>";
-		include ('header.php'); 
-	?>
-	<div class="page">
-		<form method="post" action="loginPublisher.php">
-			<div>
-				<h1><a href="index.php"> Home </a></h1>
-			</div>
-			<?php include ('errors.php'); include ('messages.php'); ?>
-			<div class="input-group">
-				<label>Publisher Name:	</label>
-				<input type="name" name="name">
-			</div>
-			<div class="input-group">
-				<label>Password:</label>
-				<input type="password" name="password">
-			</div>
-			<div class="input-group">
-				<button type="submit" class="btn" name="sign_in">Sign In</button>
-			</div>
-			<br>
-            <div>
-				<a href="loginMember.php"> Login as a Member </a>
-			</div>
-            <div>
-				<a href="continueGuest.php"> Continue as a Guest </a>
-			</div>
-			<div>
-				<a href="registerMember.php"> Sign up as a Member </a>
-			</div>
-			<div>
-				<a href="registerPublisher.php"> Sign as a Publisher </a>
-			</div>
-		</form>
-	</div>
-</html>
-
 <?php
     require_once "config.php";
+	require_once "errors.php";
+	require_once "messages.php"; 
 
 	session_start();
 
@@ -86,3 +48,44 @@
 		}
 	}
 ?>
+
+<html>
+	<?php
+		$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
+						<h3><p> Publisher Login Page:</p></h3>";
+		include ('header.php'); 
+	?>
+	<div class="page">
+		<form method="post" action="loginPublisher.php">
+			<div>
+				<h1><a href="index.php"> Home </a></h1>
+			</div>
+
+			<div class="input-group">
+				<label>Publisher Name:	</label>
+				<input type="name" name="name">
+			</div>
+			<div class="input-group">
+				<label>Password:</label>
+				<input type="password" name="password">
+			</div>
+			<div class="input-group">
+				<button type="submit" class="btn" name="sign_in">Sign In</button>
+			</div>
+			<br>
+            <div>
+				<a href="loginMember.php"> Login as a Member </a>
+			</div>
+            <div>
+				<a href="continueGuest.php"> Continue as a Guest </a>
+			</div>
+			<div>
+				<a href="registerMember.php"> Sign up as a Member </a>
+			</div>
+			<div>
+				<a href="registerPublisher.php"> Sign as a Publisher </a>
+			</div>
+		</form>
+	</div>
+</html>
+

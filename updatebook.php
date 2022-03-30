@@ -1,5 +1,13 @@
 <?php
 session_start();
+<<<<<<< HEAD:updatebook/updatebook.php
+=======
+//include ('header.php');
+require_once "config.php";
+//for testing
+$_SESSION['userMode'] = 'pub';
+$_SESSION['id'] = 1;
+>>>>>>> df3b8df447374528d247d1efbbc719966caffc1c:updatebook.php
 
 require_once "../config.php";
 

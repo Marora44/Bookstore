@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+
+$mode = isset($_SESSION['userMode']) ? $_SESSION['userMode'] : '';
+if(strlen($mode) > 0) header("location: {$mode}Landing.php");
+else session_abort()
+?>
+
 <html>
 	<?php
 		$headerOutput = "<h1> Welcome to the Online Bookstore</h1>";

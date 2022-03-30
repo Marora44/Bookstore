@@ -1,4 +1,5 @@
 <?php
+    require_once "config.php";
     //create user
 	$user_query = "INSERT INTO User VALUES()";
 	if(mysqli_query($dbConnect, $user_query)) { 
@@ -10,5 +11,5 @@
 
     $_SESSION['userMode'] = 'guest';
 
-    if($_SESSION['userMode'] != 'guest') header("location: guestLanding.php");
+    //if($_SESSION['userMode'] != 'guest') header("location: guestLanding.php");
 ?>

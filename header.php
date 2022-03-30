@@ -25,6 +25,7 @@
               background: #4c00ff;
               color: white;
               font-size: 20px;
+			  overflow: hidden;
             }
 			.page {
 				padding-left: 50px;
@@ -37,8 +38,15 @@
 	</head>
 	<body>
         <div class="header">
-          <?php echo "$headerOutput"?>
+          <?php echo $headerOutput;
+		  $home = "<h3 style=\"float: left;\"><a style=\"color: white;\" href=\"index.php\"> Home </a></h3>";
+		  $logout = isset($_SESSION['userMode']) && $_SESSION['userMode'] != "guest" ? "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"logout.php\"> Logout </a></h3>" : "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"index.php\"> Login </a></h3>";
+		  if(isset($_SESSION['userMode'])) echo $_SESSION['userMode'];
+		  ?>
+		  <?= $home.$logout ?>
+		  <h3 style="float: left;"><a style="color: white;" href="shoppingcart.php"> Cart </a></h3>
         </div>
+		
 	</body>
 	<br>
 </html>
