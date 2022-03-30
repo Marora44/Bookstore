@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else die("error removing from cart");
     } else if (array_key_exists('update', $_POST)) {
         $amtRemoved = $cartQuantity - $formQuantity;
-        $updateCart = mysqli_query($dbConnect, "UPDATE bookorder SET quantity = {$formQuantity} WHERE isbn = \"{$isbn}\" AND id = {$id}"); 
+        $updateCart = mysqli_query($dbConnect, "UPDATE bookorder SET quantity = {$formQuantity} WHERE isbn = \"{$isbn}\" AND id = {$id} AND isDigital = $isDigital"); 
         if ($updateCart) {
             $updateInventory = mysqli_query($dbConnect, "UPDATE book SET quantity = quantity + {$amtRemoved} WHERE isbn = \"{$isbn}\"");
             if (!$updateInventory) die("error updating inventory");
