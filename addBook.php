@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 
 session_start();
 
@@ -7,15 +6,6 @@ require_once "config.php";
 
 $publisherName = $_SESSION['publisherName'];
 
-=======
-session_start();
-//include ('header.php');
-require_once "config.php";
-//for testing
-//$_SESSION['userMode'] = 'pub';
-//$_SESSION['id'] = 1;
-
->>>>>>> df3b8df447374528d247d1efbbc719966caffc1c
 if($_SESSION['userMode'] != 'publisher') header("location: index.php");
 
 $isbn = $title = $genre = "";
