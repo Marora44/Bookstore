@@ -2,9 +2,6 @@
 
 session_start();
 
-//testing
-$_SESSION['id'] = 1;
-
 require_once "config.php";
 
 if (isset($_SESSION['id'])) {

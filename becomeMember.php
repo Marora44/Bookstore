@@ -6,24 +6,25 @@ require_once "config.php";
 
 if ($_SESSION['userMode'] != 'account') header("location: index.php");
 
+$orderID = 0;
 $becomeMemberISBN = "become_member";
 $id = $_SESSION['id'];
-//echo "$id";
-
-    //check if the user has an active cart (unplaced order)
-    //echo "SELECT id FROM bookorder WHERE userID = $id AND isPlaced = FALSE";
-    $checkOrders = mysqli_query($dbConnect, "SELECT id FROM bookorder WHERE userID = $id AND isPlaced = FALSE");
-    $orders = mysqli_fetch_assoc($orders);
-    echo "$orders";
+$order_exists_query = "SELECT id FROM BookOrder WHERE userID = $id AND isPlaced = FALSE";
+$result = mysqli_query($dbConnect, $order_exists_query);
 
     //set the $orderID to the correct ID if a cart exists or creates an appropriate one if not
-    //if (mysqli_num_rows($checkOrders) > 0) $orderID = mysqli_fetch_assoc($checkOrders)['id'];
-    //else {
-        //$highestID = mysqli_query($dbConnect, "SELECT MAX(id) maxID FROM bookorder");
-        //if (mysqli_num_rows($highestID) < 1) $orderID = 1;
-        //else $orderID = mysqli_fetch_assoc($highestID)['maxID'] + 1;
-    //}
-    //mysqli_free_result($checkOrders);
+    if (mysqli_num_rows($result) > 0) {
+        $orderID = mysqli_fetch_assoc($result)['id'];
+    }
+    else {
+        $highestID = mysqli_query($dbConnect, "SELECT MAX(id) maxID FROM bookorder");
+        if ($highestID == NULL) {$highestID = 0;}
+        if (mysqli_num_rows($highestID) < 1) $orderID = 1;
+        else $orderID = mysqli_fetch_assoc($highestID)['maxID'] + 1;
+    }
+    mysqli_free_result($result);
+    
+    $query = "INSERT INTO bookorder(id,isbn,quantity,userID,isDigital,isPlaced) VALUES({$orderID},\"{$becomeMemberISBN}\",1,{$id},TRUE,FALSE)";
 
-    //mysqli_query($dbConnect, "INSERT INTO bookorder(id,isbn,quantity,userID,isDigital,isPlaced) VALUES({$orderID},\"{$becomeMemberISBN}\",{$quantity},{$id},TRUE,FALSE)");
+    mysqli_query($dbConnect, $query);
 ?>
