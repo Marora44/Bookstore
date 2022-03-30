@@ -3,7 +3,7 @@
 session_start();
 
 //testing
-$_SESSION['id'] = 1;
+//$_SESSION['id'] = 1;
 
 require_once "config.php";
 
@@ -13,7 +13,6 @@ if (isset($_SESSION['id'])) {
 
 /*  
     todo:
-    process update/delete
     add checkout button
 */
 
@@ -53,7 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <h1>Your Cart</h1>
+<?php
+    $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+                 <h3><p>Your Cart</p></h3>";
+    include('header.php');
+    ?>
     <table width="40%">
         <tr>
             <th>ISBN</th>
