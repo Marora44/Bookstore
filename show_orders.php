@@ -11,7 +11,7 @@ $_SESSION['orderid'] = 1;
 $orderid = 1;
 $bookorderisbn = 0;
 $price = 0;
-$query = "SELECT id, orderDate, quantity, book.isbn, price from bookorder natural join book where userID = $userid";
+$query = "SELECT * from bookorder where userID = $userid";
 $check = 0;
 ?>
 
@@ -32,22 +32,30 @@ $check = 0;
                   $quantity = $row['quantity'];
                   $bookorderisbn = $row['isbn'];
                   $orderdate = $row['orderDate'];
+                  $complete = $row['isPlaced'];
+                  $queryprice = "SELECT price from book where isbn = $bookorderisbn";
+                  $resultprice = mysqli_query($dbConnect, $queryprice);
                   #if its the same order
-                  if($check == $orderid)
+                  if($check == $orderid && $complete)
                   {
-                    $price += (($row['price']) * $quantity);
+                    while ($rowprice = mysqli_fetch_assoc($resultprice)){
+                      $price += $rowprice['price'] * $quantity;
+                    }
                     #echo"".$row['price'];
                     #echo"&nbsp".$row['quantity'];
                     #echo $bookorderisbn;
-                  }else #must be a new order
+                  }elseif($check != $orderid && $complete) #must be a new order
                   {
+                    while ($rowprice = mysqli_fetch_assoc($resultprice)){
+                      $price = $rowprice['price'] * $quantity;
+                    }
                     #if we definitely have atleast 1 order:
                     if($check != 0)
                     {
                       #dump the TOTAL price before we get the new one
                       echo "<td>&nbsp".$price."</td></tr><td>";
                     }
-                    $price = (($row['price']) * $quantity);
+                    
                     echo "<tr><td><a href=orderhistory.php?orderid=$orderid>".$orderid."</a>&nbsp</td><td>&nbsp".$orderdate."&nbsp</td>";
                     
                     #echo"&nbsp".$row['price'];
