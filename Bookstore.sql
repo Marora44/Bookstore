@@ -81,6 +81,7 @@ create table BookOrder (
   orderDate datetime,
   quantity int,
   userID int,
+  isDigital boolean,
   isPlaced boolean,
   primary key(id, isbn),
   foreign key (isbn) references Book(isbn),
