@@ -1,5 +1,12 @@
 <?php 
+
+session_start();
+
 require_once "config.php";
+
+$publisherName = $_SESSION['publisherName'];
+
+if($_SESSION['userMode'] != 'publisher') header("location: index.php");
 
 $authorfirstname = $authorlastname = $authorfnerr = $authorlnerr = $authorerr = "";
 $fauthorfirstname = $fauthorlastname = "";
@@ -33,17 +40,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 <html>
-    <title>Add an Author</title>
-    <body>
-        <h1>Add an Author</h1>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            First name: <input type="text" name="authfirstname" value="<?php echo $fauthorfirstname ?>"><?php echo $authorfnerr ?><br><br>
-            Last name: <input type="text" name="authlastname" value="<?php echo $fauthorlastname ?>"><?php echo $authorlnerr ?><br><br>
-            <input type="submit" value="Add">
-        </form>
-        <br>
-        <?php echo $authorerr ?>
-        <?php echo $sqlmessage ?>
-    </body>
-
+    <?php
+        $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+                        <h3><p> $publisherName's Publisher Landing Page</p></h3>";
+        include ('header.php');
+    ?>
+    <div class="page">
+        <div>
+		    <h1><a href="index.php"> Home </a></h1>
+	    </div>
+        <title>Add an Author</title>
+        <body>
+            <h1>Add an Author</h1>
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                First name: <input type="text" name="authfirstname" value="<?php echo $fauthorfirstname ?>"><?php echo $authorfnerr ?><br><br>
+                Last name: <input type="text" name="authlastname" value="<?php echo $fauthorlastname ?>"><?php echo $authorlnerr ?><br><br>
+                <input type="submit" value="Add">
+            </form>
+            <br>
+            <?php echo $authorerr ?>
+            <?php echo $sqlmessage ?>
+        </body>
+    </div>
 </html>

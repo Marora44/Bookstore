@@ -74,6 +74,7 @@
 			$_SESSION['publisher'] = $publisher;
 			$_SESSION['userMode'] = 'publisher';
 			$id = (int) $publisher['id'];
+			$_SESSION['id'] = $id;
 			header('Location: publisherLanding.php?id=' . $id);
 			exit();
 		}

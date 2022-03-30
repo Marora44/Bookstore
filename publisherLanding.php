@@ -26,6 +26,7 @@ $publisherName_query = "SELECT name FROM Publisher WHERE id = $publisherPage_id"
 $publisherName_query_result = mysqli_query($dbConnect, $publisherName_query);
 $publisherName_array = mysqli_fetch_assoc($publisherName_query_result);
 $publisherName = $publisherName_array['name'];
+$_SESSION['publisherName'] = $publisherName;
 
 //redirect off the page if userMode isn't publisher or id isn't valid
 if($in_all_publisher_id != True) header("location: index.php");
@@ -67,7 +68,7 @@ if($_SESSION['userMode'] != 'publisher') header("location: index.php");
                     <td><?= $row['isbn'] ?></td>
                     <td><?= $authorName ?></td>
                     <?php
-                        $page = "/updatebook/updatebook.php?isbn=";
+                        $page = "updatebook/updatebook.php?isbn=";
                         $isbn = (string) $row['isbn'];
                         $link = $page . $isbn;
                     ?>
@@ -79,9 +80,10 @@ if($_SESSION['userMode'] != 'publisher') header("location: index.php");
             ?>
         </table>
 	</div>
-    <div style="text-align:center">    
+    <div style="text-align:center">
+        <?php $link2 = "updatebook/index.php"; ?>
+        <h1><a href="<?php echo $link2 ?>">Edit Book</a></h1>
         <h1><a href="addBook.php">Add Book</a></h1>
-        <h1>or</h1>
         <h1><a href="addauthor.php">Add Author</a></h1>
 	</div>
     <div style="text-align:center">    

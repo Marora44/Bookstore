@@ -1,14 +1,12 @@
 <?php
 session_start();
-//include ('header.php');
 require_once "../config.php";
-//for testing
-$_SESSION['userMode'] = 'pub';
-$_SESSION['id'] = 1;
+
+if($_SESSION['userMode'] != 'publisher') header("location: ../index.php");
 
 $isbn = $fisbn = $isbnerr = "";
 
-
+$publisherName = $_SESSION['publisherName'];
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $fisbn = htmlspecialchars(trim($_POST['isbn']));
@@ -35,18 +33,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 <html>
-<title>Update a Book</title>
-
-<body>
-    <!-- <div>
-		<h1><a href="index.php"> Home </a></h1>
-	</div> -->
-    <h1>Update a Book</h1>
-    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        Enter the ISBN of the book you wish to update: <br><br><input type="text" name="isbn" size="25" maxlength="13" value=<?php echo $fisbn ?>><?php echo $isbnerr?><br><br>
-        <input type="submit" value="Continue">
-    </form>
-
-</body>
-
+    <?php
+        $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+                        <h3><p> $publisherName's Publisher Landing Page</p></h3>";
+        include ('header.php');
+    ?>
+    <div class="page">
+        <div>
+            <h1><a href="../index.php"> Home </a></h1>
+        </div>
+        <title>Update a Book</title>
+        <h1>Update a Book</h1>
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            Enter the ISBN of the book you wish to update: <br><br><input type="text" name="isbn" size="25" maxlength="13" value=<?php echo $fisbn ?>><?php echo $isbnerr?><br><br>
+            <input type="submit" value="Continue">
+        </form>
+    </div>
 </html>
