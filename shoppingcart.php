@@ -18,6 +18,22 @@ else die("something went wrong");
     add checkout button
 */
 
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $isbn = $_POST['isbn'];
+    $id = $_SESSION['id'];
+    $cartQuantity = $_POST['cQuantity'];
+    $formQuantity = $_POST['fQuantity'];
+    if(array_key_exists('del',$_POST)){
+        
+        $del = mysqli_query($dbConnect, "DELETE from bookorder WHERE isbn = \"{$isbn}\" AND id = {$id}");
+        if($del){
+            $updateInventory = mysqli_query($dbConnect, "UPDATE book SET quantity = quantity + {$cartQuantity} WHERE isbn = \"{$isbn}\"");
+            if(!$updateInventory) die("error updating inventory");
+        }
+        else die("error removing from cart");
+    }
+}
+
 ?>
 
 <html>
@@ -43,7 +59,7 @@ else die("something went wrong");
 
         </tr>
         <?php
-        $cart = mysqli_query($dbConnect, "SELECT isbn, quantity FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE");
+        $cart = mysqli_query($dbConnect, "SELECT id, isbn, quantity FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE");
         $totalPrice = 0.00;
         while ($cartRow = mysqli_fetch_assoc($cart)) :
             $bookInfo = mysqli_query($dbConnect, "SELECT title, price, quantity FROM book WHERE isbn = \"{$cartRow['isbn']}\"");
@@ -55,7 +71,9 @@ else die("something went wrong");
                 <td><?= $bookRow['title'] ?></td>
                 <td width="20%"><form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" id="updateQuantity">
                         <input type="hidden" name="isbn" value="<?= $cartRow['isbn'] ?>" />
-                        <input name="quantity" value="<?= $cartRow['quantity'] ?>" style="width: 4em" type="number" step="1" max="<?= $bookRow['quantity'] + $cartRow['quantity'] ?>">
+                        <input type="hidden" name="id" value="<?= $cartRow['id'] ?>" />
+                        <input type="hidden" name="cQuantity" value="<?= $cartRow['quantity'] ?>" /> 
+                        <input name="fQuantity" value="<?= $cartRow['quantity'] ?>" style="width: 4em" type="number" step="1" max="<?= $bookRow['quantity'] + $cartRow['quantity'] ?>">
                         &nbsp;
                         <input type="submit" name="update" value="Update">
                     </form></td>
@@ -63,10 +81,9 @@ else die("something went wrong");
                 <td><input type="submit" name="del" value="Remove from cart" form="updateQuantity"></td>
             </tr>
         <?php
-        
+            mysqli_free_result($bookInfo);
         endwhile;
-        mysqli_free_result($cart);
-        mysqli_free_result($bookInfo);
+        mysqli_free_result($cart);        
         ?>
         <tr>
             <td></td>
