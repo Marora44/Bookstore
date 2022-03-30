@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <td>Physical</td>
                 <td>$<?= $row['price'] ?></td>
                 <td>
-                    <form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <form style="margin: 10 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
                         <input type="hidden" name="type" value="physical" />
                         <input name="quantity" style="width: 4em" type="number" step="1" min = "1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
