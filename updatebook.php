@@ -3,7 +3,7 @@ session_start();
 
 require_once "config.php";
 
-if($_SESSION['userMode'] != 'publisher' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
+if($_SESSION['userMode'] != 'publisher' && $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 if (isset($_SESSION['isbn'])) {
     $isbn = $_SESSION['isbn'];
@@ -107,8 +107,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         </select><?php echo $authorerr ?><br><br>
         Genre: <input type="text" name="genre" size="25" value=<?php echo "\"{$fgenre}\"" ?>><?php echo $genreerr?><br><br>
         <p style="margin-bottom: 0.5em; margin-top:0cm">Medium: <?php echo $mediumerr?></p>
-        &ensp;<input type="checkbox" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <br>
-        &ensp;<input type="checkbox" name="isdigital" value = "checked" <?php echo $fdigit?>> Digital <br><br>
+        <input type="checkbox" style="width: 25%;" name="isphysical" value = "checked" <?php echo $fphys?>> Physical <br>
+        <input type="checkbox" style="width: 25%;" name="isdigital" value = "checked" <?php echo $fdigit?>> Digital <br><br>
         Price: <input type="number" name="price" size="8" min="0.01" max="10000.00" step="0.01" value=<?php echo $fprice ?>><?php echo $priceerr?><br><br>
         Publisher ID: <input type="text" name="id" value="<?php echo $_SESSION['id'];?>" disabled><br><br>
         Password: <input type="password" name="password"><?php echo $passerr?><br><br>
