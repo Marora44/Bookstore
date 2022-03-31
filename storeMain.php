@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $search = mysqli_real_escape_string($dbConnect, $_POST['keyword']);
 
             #run the query to search Book using keyword LIKE
-            $searchQuery = "SELECT * from Book where title LIKE '%$search%' ";
+            $searchQuery = "SELECT * from Book where title LIKE '%$search%' AND book.isbn != \"become_member\"";
         }
 
         if ($_POST['searchby'] == "author") {
@@ -58,20 +58,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             #select books where authorid is in $resultsearchauthorname
 
             #run the query to search Book using keyword LIKE
-            $searchQuery = "SELECT * FROM book WHERE authorID IN (SELECT id from author where concat(firstname,' ',lastname) LIKE '%$search%')";
+            $searchQuery = "SELECT * FROM book WHERE authorID IN (SELECT id from author where concat(firstname,' ',lastname) LIKE '%$search%') AND book.isbn != \"become_member\"";
             #"SELECT authorID from Book where authorID IN (select concat(firstname, ' ', lastname) as authorname, id from author where concat(firstname, ' ', lastname) LIKE '%$search%')");
         }
-        if ($_POST['searchby'] == "year"){
+        if ($_POST['searchby'] == "year") {
             $isyear = TRUE;
-            if($_POST['keyword'] == ""){
+            if ($_POST['keyword'] == "") {
                 $_POST['keyword'] = "2022";
-
             }
-            $year = $_POST['keyword'];
+            $year = empty($_POST['keyword']) ? "AND YEAR(orderDate) = $year" : "";
             $search = mysqli_real_escape_string($dbConnect, $_POST['keyword']);
 
-            $searchQuery = "SELECT book.isbn, book.title, book.authorID, book.genre, book.price, book.isDigital, book.isPhysical, pubID, sum(bookorder.quantity) as quan from book inner join bookorder on book.isbn = bookorder.isbn where (bookorder.isPlaced = 1 AND substring(orderDate,1,4) = $year) group by isbn order by quan desc";
-            
+            $searchQuery = "SELECT book.isbn as isbn, book.title as title, book.authorID as authorID, book.genre as genre, book.price as price, book.isDigital as isDigital, book.isPhysical as isPhysical, pubID, sum(bookorder.quantity) as quantity from book inner join bookorder on book.isbn = bookorder.isbn where (bookorder.isPlaced = 1 {$year}) AND book.isbn != \"become_member\" group by isbn order by quantity desc";
         }
         //echo $searchQuery;
     }
@@ -93,10 +91,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <?php
-    $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+$headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
                  <h3><p>All Books</p></h3>";
-    include('header.php');
-    ?>
+include('header.php');
+?>
 
 <div class="page">
     <form method="POST">
@@ -117,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </form>
 
-    
+
     <table width="70%">
         <tr>
             <th>ISBN</th>
@@ -128,15 +126,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th></th>
         </tr>
         <?php
-        if (!isset($searchResults)) $booksQuery = "SELECT isbn,title,authorID,price,quantity,isDigital,isPhysical from book";
+        if (!isset($searchResults)) $booksQuery = "SELECT isbn,title,authorID,price,quantity,isDigital,isPhysical from book WHERE book.isbn != \"become_member\"";
         else $booksQuery = $searchQuery;
+        //echo $booksQuery;
         $showBooks = mysqli_query($dbConnect, $booksQuery);
+
         while ($row = mysqli_fetch_assoc($showBooks)) :
-            if($isyear){
-            $instock = $row['quan'] > 0;
-            }else{
-                $instock = $row['quantity'] > 0;
-            }
+            $instock = $row['quantity'] > 0;
+            //echo $instock;
+            //echo "SELECT id, firstname, lastname FROM author WHERE id = {$row['authorID']}";
             $author = mysqli_query($dbConnect, "SELECT id, firstname, lastname FROM author WHERE id = {$row['authorID']}");
             $authRow = mysqli_fetch_assoc($author);
             $authorName = $authRow['firstname'] . "&nbsp;" . $authRow['lastname'];
@@ -145,10 +143,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
                 <tr>
                     <td><?= $row['isbn'] ?></td>
-                    <?php 
+                    <?php
                     $temptitle = $row['title'];
                     $tempisbn = $row['isbn'];
-                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>"?>
+                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>" ?>
                     <td><?= $authorName ?></td>
                     <td>Physical</td>
                     <td>$<?= $row['price'] ?></td>
@@ -156,14 +154,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form style="margin: 10 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                             <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
                             <input type="hidden" name="type" value="physical" />
-                            <input name="quantity" style="width: 4em" type="number" step="1" min="1" max="<?= $isyear ? $row['quan'] : $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
+                            <input name="quantity" style="width: 4em" type="number" step="1" min="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
                             &nbsp;
                             <input type="submit" name="atc" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?>>
                         </form>
                     </td>
                     <td>
-                        <?php 
-                        if($isyear){
+                        <?php
+                        if ($isyear) {
                             echo "<td>Best Selling Rank: $tempcount </td>";
                             $tempcount += 1;
                         }
@@ -176,10 +174,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>
                 <tr>
                     <td><?= $row['isbn'] ?></td>
-                    <?php 
+                    <?php
                     $temptitle = $row['title'];
                     $tempisbn = $row['isbn'];
-                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>"?>
+                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>" ?>
                     <td><?= $authorName ?></td>
                     <td>Digital</td>
                     <td>$<?= $row['price'] ?></td>
@@ -193,8 +191,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </form>
                     </td>
                     <td>
-                        <?php 
-                        if($isyear){
+                        <?php
+                        if ($isyear) {
                             echo "<td>Best Selling Rank: $tempcount </td>";
                             $tempcount += 1;
                         }
@@ -207,6 +205,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_free_result($showBooks);
         ?>
     </table>
-    </div>
+</div>
 
 </html>
