@@ -2,7 +2,7 @@
 
 session_start();
 
-$id = $_SESSION['id'];
+if(isset($_SESSION['id'])) $id = $_SESSION['id'];
 
 $mode = isset($_SESSION['userMode']) ? $_SESSION['userMode'] : '';
 if (strlen($mode) > 0 AND $mode == 'guest') header("location: continueGuest.php");
