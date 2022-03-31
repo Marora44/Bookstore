@@ -8,7 +8,7 @@ $isbn = $_GET['isbn'];
 $query = "SELECT * from Book where isbn = $isbn";
 $title = "A Gamer's Dream";
 $_SESSION['id'] = 1;
-$userID = 1;
+$userID = 3;
 $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
                         <h3><p> $title </p></h3>";
 include('header.php');
@@ -127,6 +127,10 @@ while ($row = mysqli_fetch_assoc($reviews)) {
     echo "<h3>" . $username . ":&ensp;" . $rating . "/5</h3>";
     echo $review;
 }
+
+$purchased = "SELECT isbn from bookorder where userID = $userID AND isPlaced = 1 AND isbn = $isbn";
+$purchasedresult = mysqli_query($dbConnect,$purchased);
+$ispurchased = mysqli_num_rows($purchasedresult) > 0;
 ?>
 <html>
 <br><br>
@@ -147,7 +151,7 @@ while ($row = mysqli_fetch_assoc($reviews)) {
     <label for="newreview">Write a review:</label><br>
     <input type="text" id="newreview" name="newreview"><br>
     <div class="input-group">
-        <button type="submit" class="btn" name="submitreview">Post Review</button>
+        <input type="submit" class="btn" name="submitreview"  <?= $ispurchased ? "value=\"submit\"" : "value=\"Purchase required to leave a review\" disabled" ?>>
     </div>
 
 </form>
