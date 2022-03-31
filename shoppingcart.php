@@ -53,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 <?php
-/*     $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
+    $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
                  <h3><p>Your Cart</p></h3>";
-    include('header.php'); */
+    include('header.php');
     ?>
     <table width="40%">
         <tr>
