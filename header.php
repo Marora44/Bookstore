@@ -54,7 +54,7 @@
 				  echo "<center>You are a Premium Member</center>";
 			  }
 			  else if ($userMode == 'admin') {
-				  echo "<center>Welcome my lord</center>";
+				  echo "<center>Welcome Admin</center>";
 			  }
 			  else if ($userMode == 'guest') {
 				  echo "<center>You are a Guest</center>";

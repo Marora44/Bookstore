@@ -18,6 +18,7 @@ include('header.php');
     <h1><a href="updateshipping.php">Update Shipping Prices</a></h1>
     <h1><a href="addBook.php">Add Book</a></h1>
     <h1><a href="addauthor.php">Add Author</a></h1>
+    <h1><a href="http://localhost/phpmyadmin/index.php?route=/database/sql&db=Bookstore">Enter Any Query</a></h1>
 </div>
 
 </html>
