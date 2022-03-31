@@ -34,38 +34,32 @@ include('header.php');
       $bookorderisbn = $row['isbn'];
       $orderdate = $row['orderDate'];
       $complete = $row['isPlaced'];
-      $queryprice = "SELECT price from book where isbn = $bookorderisbn";
+      $queryprice = "SELECT price, isbn from book where isbn in (select isbn from bookorder where userID = $userid)";
       $resultprice = mysqli_query($dbConnect, $queryprice);
-      #if its the same order
-      if ($check == $orderid && $complete) {
-        while ($rowprice = mysqli_fetch_assoc($resultprice)) {
+      
+      while ($rowprice = mysqli_fetch_assoc($resultprice)){
+        if($complete && $bookorderisbn = $rowprice['isbn']){
           $price += $rowprice['price'] * $quantity;
         }
-        #echo"".$row['price'];
-        #echo"&nbsp".$row['quantity'];
-        #echo $bookorderisbn;
-      } elseif ($check != $orderid && $complete) #must be a new order
-      {
-        while ($rowprice = mysqli_fetch_assoc($resultprice)) {
-          $price = $rowprice['price'] * $quantity;
+      }
+      if($check != $orderid){
+        if($orderid > 0){
+          echo "<tr><td><a href=orderhistory.php?orderid=$orderid>" . $orderid . "</a>&nbsp</td><td>&nbsp" . $orderdate . "&nbsp</td><td>".$price."</td>";
         }
-        #if we definitely have atleast 1 order:
-        if ($check != 0) {
-          #dump the TOTAL price before we get the new one
-          echo "<td>&nbsp" . $price . "</td></tr><td>";
-        }
-
-        echo "<tr><td><a href=orderhistory.php?orderid=$orderid>" . $orderid . "</a>&nbsp</td><td>&nbsp" . $orderdate . "&nbsp</td>";
-
+        $price = 0;
+      }
+        $check = $orderid;
+      
+        
+        //echo $price;
         #echo"&nbsp".$row['price'];
         #echo"&nbsp".$row['quantity'];
         #echo $bookorderisbn;
-      }
+      
       #set check to (last) orderid
       $check = $orderid;
     }
     #dump price for the last row, lest it be left out
-    echo "<td>&nbsp" . $price . "</td></tr><td>";
     echo "</table>";
     ?>
 
