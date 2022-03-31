@@ -1,15 +1,14 @@
 <?php
-session_start();
 require_once "config.php";
 
 $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
             <h3><p> Order History</p></h3>";
 include ('header.php');
 //manual testing, userid == 2
-#$_SESSION['id'] = 1;
+$_SESSION['id'] = 1;
 $userid = $_SESSION['id'];
-#$_SESSION['orderid'] = 1;
-#$orderid = 1;
+$_SESSION['orderid'] = 1;
+$orderid = 1;
 $bookorderisbn = 0;
 $price = 0;
 $query = "SELECT * from bookorder where userID = $userid";

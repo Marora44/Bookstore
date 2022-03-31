@@ -87,6 +87,6 @@ if($_SESSION['userMode'] != 'publisher') header("location: index.php");
         <h1><a href="addauthor.php">Add Author</a></h1>
 	</div>
     <div style="text-align:center">    
-		<h3><a href="publisheraccountmanage.php">Edit Account Info (NEEDS TO BE MADE)</a><h3>
+		<h3><a href="publisherManage.php">Edit Account Info (NEEDS TO BE MADE)</a><h3>
 	</div>
 </html>

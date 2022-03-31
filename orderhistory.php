@@ -1,5 +1,4 @@
 <?php
-session_start();
 #$orderid = $_REQUEST['orderid'];
         $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
                         <h3><p> Member Login Page:</p></h3>";
@@ -8,9 +7,7 @@ session_start();
 require_once "config.php";
 
 //manual testing
-#$userid = $_SESSION['id'];
-#check if $_GET['isbn'] is set
-  #if so, set $_SESSION['isbn'] = $_GET['isbn']
+$_SESSION['id'] = 2;
 $orderid = $_GET['orderid'];
 $userid = $_SESSION['id'];
 $result = false;
