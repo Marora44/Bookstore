@@ -49,6 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $alreadyposted = mysqli_query($dbConnect, "SELECT count(username) from review natural join accountholder where isbn = $isbn and userID = $userID");
                 while ($alreadyposted1 = mysqli_fetch_assoc($alreadyposted)) {
                     if ($alreadyposted1['count(username)'] == 0) {
+                        $newreview = mysqli_real_escape_string($dbConnect, $_POST['newreview']);
+                        $newrating = mysqli_real_escape_string($dbConnect, $_POST['rating']);
                         $querynewreview = "insert into review values (0, \"$isbn\", \"$newreview\", $newrating, (SELECT username from accountholder where userID = $userID))";
                         $resultnewreview = mysqli_query($dbConnect, $querynewreview);
                     } else {
@@ -56,11 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 }
             }
-        }
-        if($notpurchased == "" && $alreadyreviewed == ""){
-            //save the entered values on the form in variables
-            $newreview = mysqli_real_escape_string($dbConnect, $_POST['newreview']);
-            $newrating = mysqli_real_escape_string($dbConnect, $_POST['rating']);
         }
     }
 }
