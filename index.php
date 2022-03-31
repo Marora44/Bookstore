@@ -3,7 +3,11 @@
 session_start();
 
 $mode = isset($_SESSION['userMode']) ? $_SESSION['userMode'] : '';
-if (strlen($mode) > 0 AND $mode != 'guest') header("location: {$mode}Landing.php");
+if (strlen($mode) > 0 AND $mode == 'guest') header("location: index.php");
+else if (strlen($mode) > 0 AND $mode == 'account') header("location: accountLanding.php");
+else if (strlen($mode) > 0 AND $mode == 'member') header("location: accountLanding.php");
+else if (strlen($mode) > 0 AND $mode == 'publisher') header("location: publisherLanding.php");
+else if (strlen($mode) > 0 AND $mode == 'admin') header("location: adminLanding.php");
 else session_abort()
 ?>
 

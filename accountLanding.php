@@ -25,7 +25,7 @@ session_start();
 
 //redirect off the page if userMode isn't member or id isn't valid
 //if ($in_all_member_id != True) header("location: index.php");
-if ($_SESSION['userMode'] != 'account') header("location: index.php");
+if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'member') header("location: index.php");
 
 ?>
 
