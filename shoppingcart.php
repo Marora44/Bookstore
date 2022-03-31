@@ -1,7 +1,9 @@
 <?php
 
 session_start();
-
+$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
+                        <h3><p> Member Login Page:</p></h3>";
+        include ('header.php'); 
 require_once "config.php";
 
 if (isset($_SESSION['id'])) {
