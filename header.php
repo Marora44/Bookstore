@@ -2,7 +2,7 @@
 	<head>
 		<style>
 			html {
-				background-color: #ffed00;
+				background-color: #FFB693;
 			}
 			form {
 				width: 300;
@@ -22,7 +22,7 @@
             .header {
               padding: 15px;
               text-align: center;
-              background: #4c00ff;
+              background: #44B3A7;
               color: white;
               font-size: 20px;
 			  overflow: hidden;
