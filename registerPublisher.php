@@ -58,7 +58,7 @@
 		$publisher = mysqli_fetch_assoc($result);
 		
 		if($publisher) {
-			if($publisher['name'] === $publisherame) {
+			if($publisher['name'] === $publishername) {
 				array_push($errors, "Publisher name already taken.");
 			}
 		}
