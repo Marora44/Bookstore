@@ -27,4 +27,7 @@ $result = mysqli_query($dbConnect, $order_exists_query);
     $query = "INSERT INTO bookorder(id,isbn,quantity,userID,isDigital,isPlaced) VALUES({$orderID},\"{$becomeMemberISBN}\",1,{$id},TRUE,FALSE)";
 
     mysqli_query($dbConnect, $query);
+
+    header("Location: shoppingcart.php");
+    exit();
 ?>
