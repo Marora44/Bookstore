@@ -2,7 +2,7 @@
 session_start();
 
 require_once "config.php";
-if (isset($_SESSION['userMode']) && $_SESSION['userMode'] != 'guest') header("location: index.php");
+if (isset($_SESSION['userMode']) && $_SESSION['userMode'] != 'guest'  AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 else if (!isset($_SESSION['id'])) {
         $user_query = $sqlmessage = "";
 

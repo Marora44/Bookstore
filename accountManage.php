@@ -3,7 +3,7 @@ session_start();
 
 require_once "config.php";
 
-if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'member') header("location: index.php");
+if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'member' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];

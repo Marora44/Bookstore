@@ -3,7 +3,7 @@ require_once "config.php";
 
 session_start();
 
-if($_SESSION['userMode'] != 'publisher') header("location: index.php");
+if($_SESSION['userMode'] != 'publisher' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 if (isset($_GET['id'])) {
 		
