@@ -3,7 +3,7 @@ require_once "config.php";
 
 session_start();
 
-if($_SESSION['userMode'] != 'publisher' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
+if($_SESSION['userMode'] != 'publisher' && $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 if (isset($_GET['id'])) {
 		
@@ -66,7 +66,7 @@ if($in_all_publisher_id != True) header("location: index.php");
                     <td><?= $row['isbn'] ?></td>
                     <td><?= $authorName ?></td>
                     <?php
-                        $page = "updatebook.php?isbn=";
+                        $page = "updatebookhelper.php?isbn=";
                         $isbn = (string) $row['isbn'];
                         $link = $page . $isbn;
                     ?>
