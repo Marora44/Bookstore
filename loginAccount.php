@@ -37,8 +37,15 @@ if (isset($_POST['sign_in'])) {
     //check to see if we need to print out errors
     if (count($errors) == 0) {
         //save the account as a session variable
-        //$_SESSION['member'] = $member;
-        $_SESSION['userMode'] = 'account';
+        if ($account['userID'] < 0) {
+            $_SESSION['userMode'] = 'admin';
+        }
+        else if ($account['isMember']) {
+            $_SESSION['userMode'] = 'member';
+        }
+        else {
+            $_SESSION['userMode'] = 'account';
+        }
         $id = (int) $account['userID'];
         $_SESSION['id'] = $id;
         $_SESSION['username'] = $username;
