@@ -28,7 +28,7 @@ create table Publisher (
   id int auto_increment,
   password varchar(20),
   name varchar(30),
-  primary key(id)
+  primary key(id, name)
 );
  
 create table Book (
