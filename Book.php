@@ -8,16 +8,14 @@ $isbn = $_GET['isbn'];
 $query = "SELECT * from Book where isbn = $isbn";
 $title = "A Gamer's Dream";
 $_SESSION['id'] = 1;
-$userID = 3;
+$userID = 1;
 $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
                         <h3><p> $title </p></h3>";
 include('header.php');
 
 require_once "config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "test";
     if (isset($_POST['cart'])) {
-        echo "world";
         #$isbn = $_POST['isbn'];
         #$quantity = $_POST['quantity'];
         $quantity = 1;
@@ -42,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else die("error adding to cart");
     }
     if (isset($_POST['submitreview'])) {
-        echo "hello world";
         //save the entered values on the form in variables
         $newreview = mysqli_real_escape_string($dbConnect, $_POST['newreview']);
         $newrating = mysqli_real_escape_string($dbConnect, $_POST['rating']);
@@ -131,6 +128,8 @@ while ($row = mysqli_fetch_assoc($reviews)) {
 $purchased = "SELECT isbn from bookorder where userID = $userID AND isPlaced = 1 AND isbn = $isbn";
 $purchasedresult = mysqli_query($dbConnect,$purchased);
 $ispurchased = mysqli_num_rows($purchasedresult) > 0;
+echo "doodoo";
+echo $ispurchased;
 ?>
 <html>
 <br><br>
