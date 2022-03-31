@@ -1,11 +1,5 @@
 <?php
-
 session_start();
-$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
-                        <h3><p> Member Login Page:</p></h3>";
-        include ('header.php'); 
-require_once "config.php";
-
 if (isset($_SESSION['id'])) {
     $userID = $_SESSION['id'];
 } else die("something went wrong");
@@ -43,6 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <html>
+    <?php
+    $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
+                            <h3><p> Member Login Page:</p></h3>";
+            include ('header.php'); 
+    require_once "config.php";
+
+    ?>
 
 <head>
     <title>Shopping Cart</title>
@@ -54,11 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<?php
-    $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
-                 <h3><p>Your Cart</p></h3>";
-    include('header.php');
-    ?>
     <table width="40%">
         <tr>
             <th>ISBN</th>
