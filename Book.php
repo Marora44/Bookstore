@@ -2,25 +2,25 @@
 session_start();
 #$orderid = $_REQUEST['orderid'];
 #$title = $_GET['title'];
-$isbn = $_GET['isbn'];
-#if (isset($_GET['isbn'])) $_SESSION['isbn'] = $_GET['isbn'];
-#if (isset($_SESSION['isbn'])) $isbn = $_SESSION['isbn'];
+#$isbn = $_GET['isbn'];
+if (isset($_GET['isbn'])) $_SESSION['isbn'] = $_GET['isbn'];
+if (isset($_SESSION['isbn'])) $isbn = $_SESSION['isbn'];
+#echo $isbn;
 $query = "SELECT * from Book where isbn = $isbn";
-$title = "A Gamer's Dream";
-$_SESSION['id'] = 1;
-$userID = 1;
+$title = "";
+#$_SESSION['id'] = 1;
+$userID = $_SESSION['id'];
 $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
                         <h3><p> $title </p></h3>";
 include('header.php');
 
 require_once "config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "test";
     if (isset($_POST['cart'])) {
-        echo "world";
-        #$isbn = $_POST['isbn'];
-        #$quantity = $_POST['quantity'];
-        $quantity = 1;
+        if (isset($_GET['isbn'])) $_SESSION['isbn'] = $_GET['isbn'];
+        if (isset($_SESSION['isbn'])) $isbn = $_SESSION['isbn'];
+        $quantity = $_POST['quantity'];
+        #$quantity = 1;
         //check if the user has an active cart (unplaced order)
         $checkOrders = mysqli_query($dbConnect, "SELECT id FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE");
         //set the $orderID to the correct ID if a cart exists or creates an appropriate one if not
@@ -42,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else die("error adding to cart");
     }
     if (isset($_POST['submitreview'])) {
-        echo "hello world";
         //save the entered values on the form in variables
         $newreview = mysqli_real_escape_string($dbConnect, $_POST['newreview']);
         $newrating = mysqli_real_escape_string($dbConnect, $_POST['rating']);
@@ -102,12 +101,16 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 ?>
+
+
 <td>
-    <form style="margin: 8 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-        <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
-        &nbsp;
-        <input type="submit" name="cart" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?>>
-    </form>
+                            <form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                                <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
+                                <input type="hidden" name="type" value="physical" />
+                                <input name="quantity" style="width: 4em" type="number" step="1" min="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
+                                &nbsp;
+                                <input type="submit" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?> name="cart">
+                            </form>
 </td>
 
 <?php
