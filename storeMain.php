@@ -1,9 +1,6 @@
 <?php
 session_start();
 
-//testing
-$_SESSION['id'] = 1;
-
 require_once "config.php";
 
 $isbn = "";
