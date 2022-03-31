@@ -8,9 +8,6 @@ include('header.php');
     <form method="post" action="registerAccount.php">
         <?php include('errors.php');
         include('messages.php'); ?>
-        <div>
-            <h1><a href="index.php"> Home </a></h1>
-        </div>
         <div class="input-group">
             <label>First Name: </label>
             <input type="text" name="firstname">

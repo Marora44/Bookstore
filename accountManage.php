@@ -73,9 +73,6 @@ include('header.php');
 <title>Update Account Information</title>
 
 <div class="page">
-    <div>
-        <h1><a href="index.php"> Home </a></h1>
-    </div>
     <h1>Update your Account Information</h1>
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
