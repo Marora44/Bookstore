@@ -98,6 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <tr style="text-align: left;">
         <th style="padding-left: 0px;">Payment Info</th>
         <th style="padding-left: 0px;">Billing Info</th>
+        <th style="padding-left: 0px;">Shipping Info</th>
     </tr>
     <tr style="text-align: left;">
         <td><form>
@@ -109,8 +110,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <td><form>
             Address: <input type="text" name="bAddress" required><br>
             City: <input type="text" name="bCity" required><br>
-            State: <input type="text" pattern="[a-zA-Z]{2}" name="bstate" required><br>
+            State: <input type="text" pattern="[a-zA-Z]{2}" name="bState" required><br>
             Zip: <input type="text" pattern="\d{5}" name="bZip" required><br>
+            <input type="submit">
+        </form></td>
+        <td><form>
+            Address: <input type="text" name="sAddress" required><br>
+            City: <input type="text" name="bCity" required><br>
+            State: <input type="text" pattern="[a-zA-Z]{2}" name="sState" required><br>
+            Zip: <input type="text" pattern="\d{5}" name="sZip" required><br>
             <input type="submit">
         </form></td>
     </tr>
