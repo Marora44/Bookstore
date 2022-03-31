@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['id'])) {
     $userID = $_SESSION['id'];
 } else die("something went wrong");
-
+require_once"config.php";
 /*  
     todo:
     add checkout button
