@@ -34,7 +34,7 @@ include('header.php');
       $bookorderisbn = $row['isbn'];
       $orderdate = $row['orderDate'];
       $complete = $row['isPlaced'];
-      $queryprice = "SELECT price, isbn from book where isbn in (select isbn from bookorder where userID = $userid)";
+      $queryprice = "SELECT price, isbn from book where isbn = \"{$row['isbn']}\"";
       $resultprice = mysqli_query($dbConnect, $queryprice);
       
       while($rowprice = mysqli_fetch_assoc($resultprice)){
