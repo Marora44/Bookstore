@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //mysqli_query($dbConnect, "INSERT INTO ships VALUES($cartID,$maxAID)");
         if (isset($_POST['saveShip'])) mysqli_query($dbConnect, "INSERT INTO storedShip VALUES({$userID},{$maxAID})");
         mysqli_query($dbConnect, "INSERT INTO buys VALUES($userID,$cartID)");
-        mysqli_query($dbConnect, "UPDATE bookorder SET isPlaced = true WHERE id = {$cartID}");
+        mysqli_query($dbConnect, "UPDATE bookorder SET isPlaced = true, orderDate = NOW() WHERE id = {$cartID}");
         if(isset($_SESSION['become_mem'])) {
             mysqli_query($dbConnect, "UPDATE accountholder SET isMember = 1 WHERE userID = {$userID}");
             $_SESSION['userMode'] = "member";
@@ -89,7 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include('header.php');
     require_once "config.php";
 
-    ?>
     ?>
     <table style="table-layout: auto;">
         <tr>
@@ -220,14 +219,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 City: <input type="text" form="checkout" name="bCity" required><br>
                 State: <input type="text" form="checkout" pattern="[a-zA-Z]{2}" name="bState" required><br>
                 Zip: <input type="text" form="checkout" pattern="\d{5}" name="bZip" required><br><br>
-                <input type="checkbox" form="checkout" name="savePay"> Save this Payment Method
             </td>
             <td>
                 Address: <input type="text" form="checkout" name="sAddress" required><br>
                 City: <input type="text" form="checkout" name="sCity" required><br>
                 State: <input type="text" form="checkout" pattern="[a-zA-Z]{2}" name="sState" required><br>
                 Zip: <input type="text" form="checkout" pattern="\d{5}" name="sZip" required><br><br>
-                <input type="checkbox" form="checkout" name="saveShip"> Save this Address
                 <input type="submit" form="checkout" name="checkout">
             </td>
         </tr>
