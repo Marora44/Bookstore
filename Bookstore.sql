@@ -144,7 +144,6 @@ create table StoredShip (
 create table StoredPay (
   userID int,
   paymentID int,
-  ccv int,
   foreign key (userID) references User(id),
   foreign key (paymentID) references PaymentInfo(id)
 );

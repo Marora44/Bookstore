@@ -41,23 +41,7 @@
           <?php echo $headerOutput;
 		  $home = "<h3 style=\"float: left;\"><a style=\"color: white;\" href=\"index.php\"> Home </a></h3>";
 		  $logout = isset($_SESSION['userMode']) && $_SESSION['userMode'] != "guest" ? "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"logout.php\"> Logout </a></h3>" : "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"index.php\"> Login </a></h3>";
-		  if(isset($_SESSION['userMode'])) {
-			  $userMode = $_SESSION['userMode'];
-			  if ($userMode == 'account') {
-				  echo "You are a Base Account Holder. Would You Like to ";
-				  echo "<a href='becomeMember.php'>Become a Member</a>";
-			  }
-			  else if ($userMode == 'publisher') {
-				  echo "You are a Publisher";
-			  }
-			  else if ($userMode == 'member') {
-				  echo "You are a Premium Member";
-			  }
-			  else if ($userMode == 'admin') {
-				  echo "Welcome my lord";
-			  }
-			  else { echo ""; }
-		  }
+		  if(isset($_SESSION['userMode'])) echo $_SESSION['userMode'];
 		  ?>
 		  <?= $home.$logout ?>
 		  <h3 style="float: left;"><a style="color: white;" href="shoppingcart.php"> Cart </a></h3>

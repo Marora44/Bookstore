@@ -15,9 +15,7 @@ include('header.php');
 
 require_once "config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "test";
     if (isset($_POST['cart'])) {
-        echo "world";
         #$isbn = $_POST['isbn'];
         #$quantity = $_POST['quantity'];
         $quantity = 1;
@@ -42,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else die("error adding to cart");
     }
     if (isset($_POST['submitreview'])) {
-        echo "hello world";
         //save the entered values on the form in variables
         $newreview = mysqli_real_escape_string($dbConnect, $_POST['newreview']);
         $newrating = mysqli_real_escape_string($dbConnect, $_POST['rating']);
@@ -127,6 +124,12 @@ while ($row = mysqli_fetch_assoc($reviews)) {
     echo "<h3>" . $username . ":&ensp;" . $rating . "/5</h3>";
     echo $review;
 }
+
+$purchased = "SELECT isbn from bookorder where userID = $userID AND isPlaced = 1 AND isbn = $isbn";
+$purchasedresult = mysqli_query($dbConnect,$purchased);
+$ispurchased = mysqli_num_rows($purchasedresult) > 0;
+echo "doodoo";
+echo $ispurchased;
 ?>
 <html>
 <br><br>
@@ -147,7 +150,7 @@ while ($row = mysqli_fetch_assoc($reviews)) {
     <label for="newreview">Write a review:</label><br>
     <input type="text" id="newreview" name="newreview"><br>
     <div class="input-group">
-        <button type="submit" class="btn" name="submitreview">Post Review</button>
+        <input type="submit" class="btn" name="submitreview"  <?= $ispurchased ? "value=\"submit\"" : "value=\"Purchase required to leave a review\" disabled" ?>>
     </div>
 
 </form>

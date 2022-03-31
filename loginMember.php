@@ -1,43 +1,42 @@
 <?php
     require_once "config.php";
-	require_once "errors.php";
-	require_once "messages.php"; 
+	include 'errors.php'; 
+	include 'messages.php';
 
 	session_start();
 
-    //variable to not print out that publisher does not exist if there is information missing
+    //variable to not print out that member does not exist if there is information missing
     $DNE = 0;
 
     //this section handles when "submit" is clicked on the form
 	if (isset($_POST['sign_in'])) {
-		$name = mysqli_real_escape_string($dbConnect, $_POST['name']);
+		$username = mysqli_real_escape_string($dbConnect, $_POST['username']);
 		$password = mysqli_real_escape_string($dbConnect, $_POST['password']);
 		
-		if(empty($name)) { array_push($errors, "Enter a Publisher Name."); $DNE = 1;}
+		if(empty($username)) { array_push($errors, "Enter a username."); $DNE = 1;}
 		if(empty($password)) { array_push($errors, "Enter a password."); $DNE = 1;}
 		
-		$name_exists_query = "SELECT * FROM Publisher WHERE name = '$name' LIMIT 1";
-		$result = mysqli_query($dbConnect, $name_exists_query);
-		$publisher = mysqli_fetch_assoc($result);
+		$username_exists_query = "SELECT * FROM AccountHolder WHERE username = '$username' LIMIT 1";
+		$result = mysqli_query($dbConnect, $username_exists_query);
+		$member = mysqli_fetch_assoc($result);
 		
-		if(!$publisher && $DNE==0) {
-				array_push($errors, "Publisher account does not exist.");
+		if(!$member && $DNE==0) {
+				array_push($errors, "Member does not exist.");
 		}
 		else {
-			if(!($publisher['password'] === $password) && $DNE==0) {
+			if(!($member['password'] === $password) && $DNE==0) {
 				array_push($errors, "Password is incorrect.");
 			}
 		}
 		
 		//check to see if we need to print out errors
 		if(count($errors) == 0) {			
-			
-			///save the publisher as a session variable
-			$_SESSION['publisher'] = $publisher;
-			$_SESSION['userMode'] = 'publisher';
-			$id = (int) $publisher['id'];
+			//save the member as a session variable
+			$_SESSION['member'] = $member;
+			$_SESSION['userMode'] = 'member';
+			$id = (int) $member['userID'];
 			$_SESSION['id'] = $id;
-			header('Location: publisherLanding.php?id=' . $id);
+			header('Location: memberLanding.php?id=' . $id);
 			exit();
 		}
 		else {
@@ -52,18 +51,17 @@
 <html>
 	<?php
 		$headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
-						<h3><p> Publisher Login Page:</p></h3>";
+						<h3><p> Member Login Page:</p></h3>";
 		include ('header.php'); 
 	?>
 	<div class="page">
-		<form method="post" action="loginPublisher.php">
+		<form method="post" action="loginMember.php">
 			<div>
 				<h1><a href="index.php"> Home </a></h1>
 			</div>
-
 			<div class="input-group">
-				<label>Publisher Name:	</label>
-				<input type="name" name="name">
+				<label>Username:	</label>
+				<input type="username" name="username">
 			</div>
 			<div class="input-group">
 				<label>Password:</label>
@@ -74,7 +72,7 @@
 			</div>
 			<br>
             <div>
-				<a href="loginMember.php"> Login as a Member </a>
+				<a href="loginPublisher.php"> Login as a Publisher </a>
 			</div>
             <div>
 				<a href="continueGuest.php"> Continue as a Guest </a>
@@ -83,7 +81,7 @@
 				<a href="registerMember.php"> Sign up as a Member </a>
 			</div>
 			<div>
-				<a href="registerPublisher.php"> Sign as a Publisher </a>
+				<a href="registerPublisher.php"> Sign up as a Publisher </a>
 			</div>
 		</form>
 	</div>
