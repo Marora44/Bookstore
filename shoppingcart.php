@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 
-<body>
+<div class="page">
     <table width="40%">
         <tr>
             <th>ISBN</th>
@@ -127,6 +127,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <td>$<?= $totalPrice ?></td>
         </tr>
     </table>
-</body>
+    </div>
 
 </html>

@@ -44,17 +44,20 @@
 		  if(isset($_SESSION['userMode'])) {
 			  $userMode = $_SESSION['userMode'];
 			  if ($userMode == 'account') {
-				  echo "You are a Base Account Holder. Would You Like to ";
-				  echo "<a href='becomeMember.php'>Become a Member</a>";
+				  echo "<center>You are a Base Account Holder. Would You Like to ";
+				  echo "<a href='becomeMember.php'>Become a Member</a></center>";
 			  }
 			  else if ($userMode == 'publisher') {
-				  echo "You are a Publisher";
+				  echo "<center>You are a Publisher</center>";
 			  }
 			  else if ($userMode == 'member') {
-				  echo "You are a Premium Member";
+				  echo "<center>You are a Premium Member</center>";
 			  }
 			  else if ($userMode == 'admin') {
-				  echo "Welcome my lord";
+				  echo "<center>Welcome my lord</center>";
+			  }
+			  else if ($userMode == 'guest') {
+				  echo "<center>You are a Guest</center>";
 			  }
 			  else { echo ""; }
 		  }
