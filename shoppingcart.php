@@ -4,10 +4,6 @@ if (isset($_SESSION['id'])) {
     $userID = $_SESSION['id'];
 } else die("something went wrong");
 require_once"config.php";
-/*  
-    todo:
-    add checkout button
-*/
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isbn = $_POST['isbn'];
@@ -54,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 
-<body>
+<div class="page">
     <table width="40%">
         <tr>
             <th>ISBN</th>
@@ -67,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </tr>
         <?php
         $cart = mysqli_query($dbConnect, "SELECT id, isbn, quantity, isDigital FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE");
+        $checkout = mysqli_num_rows($cart) > 0 ? "<a href=\"checkout.php\">checkout</a>" : "";
         $totalPrice = 0.00;
         while ($cartRow = mysqli_fetch_assoc($cart)) :
             $bookInfo = mysqli_query($dbConnect, "SELECT title, price, quantity FROM book WHERE isbn = \"{$cartRow['isbn']}\"");
@@ -127,6 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <td>$<?= $totalPrice ?></td>
         </tr>
     </table>
-</body>
+    </div>
 
 </html>

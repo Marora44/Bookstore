@@ -4,7 +4,7 @@ session_start();
 
 require_once "config.php";
 
-if ($_SESSION['userMode'] != 'account') header("location: index.php");
+if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 $orderID = 0;
 $becomeMemberISBN = "become_member";

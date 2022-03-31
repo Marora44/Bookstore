@@ -3,7 +3,7 @@ session_start();
 
 require_once "config.php";
 
-if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'member') header("location: index.php");
+if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'member' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_free_result($passres);
     }
     if (empty($ccerr . $ccverr . $expDateerr . $passerr)) {
-        $updatepayment = "UPDATE paymentInfo SET cc = \"{$cc}\", ccv = \"{$ccv}\", expDate = \"{$expDate}\" WHERE id = {$paymentID}";
+        $updatepayment = "UPDATE PaymentInfo SET cc = \"{$cc}\", ccv = \"{$ccv}\", expDate = \"{$expDate}\" WHERE id = {$paymentID}";
         if (mysqli_query($dbConnect, $updatepayment)) $sqlmessage = "Success";
         else {
             $sqlerr = mysqli_error($dbConnect);
@@ -72,9 +72,6 @@ include('header.php');
 <title>Update Payment Information</title>
 
 <div class="page">
-    <div>
-        <h1><a href="index.php"> Home </a></h1>
-    </div>
     <h1>Update your Payment Information</h1>
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">

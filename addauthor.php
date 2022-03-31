@@ -6,7 +6,7 @@ require_once "config.php";
 
 $publisherName = $_SESSION['publisherName'];
 
-if($_SESSION['userMode'] != 'publisher') header("location: index.php");
+if($_SESSION['userMode'] != 'publisher' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 $authorfirstname = $authorlastname = $authorfnerr = $authorlnerr = $authorerr = "";
 $fauthorfirstname = $fauthorlastname = "";

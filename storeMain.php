@@ -91,12 +91,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 
-<body>
 <?php
     $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
                  <h3><p>All Books</p></h3>";
     include('header.php');
     ?>
+
+<div class="page">
     <form method="POST">
         <label for="searchby">Search By:</label>
         <select name="searchby" id="searchby">
@@ -146,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php 
                     $temptitle = $row['title'];
                     $tempisbn = $row['isbn'];
-                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>;"?>
+                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>"?>
                     <td><?= $authorName ?></td>
                     <td>Physical</td>
                     <td>$<?= $row['price'] ?></td>
@@ -177,7 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php 
                     $temptitle = $row['title'];
                     $tempisbn = $row['isbn'];
-                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>;"?>
+                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>"?>
                     <td><?= $authorName ?></td>
                     <td>Digital</td>
                     <td>$<?= $row['price'] ?></td>
@@ -205,6 +206,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_free_result($showBooks);
         ?>
     </table>
-</body>
+    </div>
 
 </html>

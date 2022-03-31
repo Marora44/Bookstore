@@ -3,7 +3,7 @@ session_start();
 
 require_once "config.php";
 
-if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'member') header("location: index.php");
+if ($_SESSION['userMode'] != 'account' AND $_SESSION['userMode'] != 'member' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
@@ -77,9 +77,6 @@ include('header.php');
 <title>Update Address Information</title>
 
 <div class="page">
-    <div>
-        <h1><a href="index.php"> Home </a></h1>
-    </div>
     <h1>Update your Address Information</h1>
     <h4>All fields are required.</h4>
     <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">

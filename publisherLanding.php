@@ -1,7 +1,9 @@
 <?php 
-    require_once "config.php";
+require_once "config.php";
 
 session_start();
+
+if($_SESSION['userMode'] != 'publisher' AND $_SESSION['userMode'] != 'admin') header("location: index.php");
 
 if (isset($_GET['id'])) {
 		
@@ -30,7 +32,6 @@ $_SESSION['publisherName'] = $publisherName;
 
 //redirect off the page if userMode isn't publisher or id isn't valid
 if($in_all_publisher_id != True) header("location: index.php");
-if($_SESSION['userMode'] != 'publisher') header("location: index.php");
 
 ?>
 
@@ -41,9 +42,6 @@ if($_SESSION['userMode'] != 'publisher') header("location: index.php");
         include ('header.php');
     ?>
     <div class="page">
-        <div>
-            <h1><a href="index.php"> Home </a></h1>
-        </div>
         <h1><?php echo $publisherName ?>'s Books:</h1>
         <table width="70%">
             <tr>
@@ -68,11 +66,11 @@ if($_SESSION['userMode'] != 'publisher') header("location: index.php");
                     <td><?= $row['isbn'] ?></td>
                     <td><?= $authorName ?></td>
                     <?php
-                        $page = "updatebook/updatebook.php?isbn=";
+                        $page = "updatebook.php?isbn=";
                         $isbn = (string) $row['isbn'];
                         $link = $page . $isbn;
                     ?>
-                    <td><a href="<?php echo $link ?>">Edit Book</a></td>
+                    <td><a href=<?php echo $link ?>>Edit Book</a></td>
                 </tr> 
             <?php
                 endwhile;
@@ -81,12 +79,10 @@ if($_SESSION['userMode'] != 'publisher') header("location: index.php");
         </table>
 	</div>
     <div style="text-align:center">
-        <?php $link2 = "updatebook/index.php"; ?>
-        <h1><a href="<?php echo $link2 ?>">Edit Book</a></h1>
         <h1><a href="addBook.php">Add Book</a></h1>
         <h1><a href="addauthor.php">Add Author</a></h1>
 	</div>
     <div style="text-align:center">    
-		<h3><a href="publisherManage.php">Edit Account Info (NEEDS TO BE MADE)</a><h3>
+		<h3><a href="publisherManage.php">Edit Account Info</a><h3>
 	</div>
 </html>

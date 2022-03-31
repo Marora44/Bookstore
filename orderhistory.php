@@ -43,7 +43,7 @@ $query = "SELECT * from bookorder where id = $orderid";
     <th>Quantity&ensp;&ensp;</th>
     <th>Price</th>
   </tr>
-<body>
+<div class="page">
     <h1>Order History</h1>
         <div class="page">
         <?php

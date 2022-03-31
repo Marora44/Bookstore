@@ -69,9 +69,6 @@ include('header.php');
 ?>
 <div class="page">
     <form method="post" action="loginAccount.php">
-        <div>
-            <h1><a href="index.php"> Home </a></h1>
-        </div>
         <div class="input-group">
             <label>Username: </label>
             <input type="username" name="username">
