@@ -1,5 +1,4 @@
 use bookstore;
-
 SET foreign_key_checks = 0;
 drop table if exists Author;
 drop table if exists Publisher;
@@ -93,12 +92,13 @@ create table AddressInfo (
   street varchar(30),
   city varchar(30),
   state varchar(20),
-  zip int,
+  zip char(5),
   primary key(id)
 );
 create table PaymentInfo (
   id int auto_increment,
   cc varchar(16),
+  ccv char(3),
   expDate char(5),
   billingID int,
   primary key(id),
@@ -144,7 +144,6 @@ create table StoredShip (
 create table StoredPay (
   userID int,
   paymentID int,
-  ccv int,
   foreign key (userID) references User(id),
   foreign key (paymentID) references PaymentInfo(id)
 );

@@ -41,8 +41,9 @@ include('header.php');
     <h1><a href="show_orders.php">View Order History</a></h1>
 </div>
 <div style="text-align:center">
-    <h3><a href="accountManage.php">Update Account Info</a>
-        <h3>
+    <h3><a href="accountManage.php">Update Account Info</a><h3>
+    <h3><a href="shippingManage.php">Update Shipping Info</a><h3>
+    <h3><a href="paymentManage.php">Update Payment Info</a><h3>
 </div>
 
 </html>
