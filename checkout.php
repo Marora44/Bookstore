@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_query($dbConnect, "UPDATE bookorder SET isPlaced = true WHERE id = {$cartID}");
         if(isset($_SESSION['become_mem'])) {
             mysqli_query($dbConnect, "UPDATE accountholder SET isMember = 1 WHERE userID = {$userID}");
+            $_SESSION['userMode'] = "member";
             unset($_SESSION['become_mem']);
         }
         //header("location: shoppingcart.php");
