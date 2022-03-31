@@ -79,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <tr>
                 <td><?= $cartRow['isbn'] ?></td>
                 <td><?= $bookRow['title'] ?></td>
-                <td width="20%">
-                    <form style="margin: 10 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" id="updateQuantity">
+                <td width="30%">
+                    <form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" id="updateQuantity">
                         <input type="hidden" name="isbn" value="<?= $cartRow['isbn'] ?>" />
                         <input type="hidden" name="id" value="<?= $cartRow['id'] ?>" />
                         <input type="hidden" name="cQuantity" value="<?= $cartRow['quantity'] ?>"/>
