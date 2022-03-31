@@ -42,13 +42,14 @@ include('header.php');
           $price += $rowprice['price'] * $quantity;
         }
       }
+      
       if($check != $orderid){
         if($orderid > 0){
           echo "<tr><td><a href=orderhistory.php?orderid=$orderid>" . $orderid . "</a>&nbsp</td><td>&nbsp" . $orderdate . "&nbsp</td><td>".$price."</td>";
         }
-        $price = 0;
       }
         $check = $orderid;
+        $price = 0;
       
         
         //echo $price;
