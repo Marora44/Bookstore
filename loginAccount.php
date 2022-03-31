@@ -49,7 +49,12 @@ if (isset($_POST['sign_in'])) {
         $id = (int) $account['userID'];
         $_SESSION['id'] = $id;
         $_SESSION['username'] = $username;
-        header('Location: accountLanding.php?id=' . $id);
+        if ($account['userID'] < 0) {
+            header('Location: adminLanding.php?id=' . $id);
+        }
+        else {
+            header('Location: accountLanding.php?id=' . $id);
+        }
         exit();
     }
     //else {
