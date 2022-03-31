@@ -40,12 +40,12 @@
 			header('Location: publisherLanding.php?id=' . $id);
 			exit();
 		}
-		else {
+		//else {
 			//display errors
-			foreach($errors as $error) {
-				print($error . "<br>");
-			}
-		}
+			//foreach($errors as $error) {
+				//print($error . "<br>");
+			//}
+		//}
 	}
 ?>
 
@@ -86,6 +86,11 @@
 				<a href="registerPublisher.php"> Sign as a Publisher </a>
 			</div>
 		</form>
+		<?php
+			foreach($errors as $error) {
+				print($error . "<br>");
+			}
+		?>
 	</div>
 </html>
 

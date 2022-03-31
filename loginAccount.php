@@ -44,12 +44,13 @@ if (isset($_POST['sign_in'])) {
         $_SESSION['username'] = $username;
         header('Location: accountLanding.php?id=' . $id);
         exit();
-    } else {
-        //display errors
-        foreach ($errors as $error) {
-            print($error . "<br>");
-        }
     }
+    //else {
+    //display errors
+    //foreach ($errors as $error) {
+    //print($error . "<br>");
+    //}
+    //}
 }
 ?>
 
@@ -89,6 +90,11 @@ include('header.php');
             <a href="registerPublisher.php"> Sign up as a Publisher </a>
         </div>
     </form>
+    <?php
+    foreach ($errors as $error) {
+        print($error . "<br>");
+    }
+    ?>
 </div>
 
 </html>
