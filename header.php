@@ -40,7 +40,7 @@
         <div class="header">
           <?php echo $headerOutput;
 		  $home = "<h3 style=\"float: left;\"><a style=\"color: white;\" href=\"index.php\"> Home </a></h3>";
-		  $logout = isset($_SESSION['userMode']) && $_SESSION['userMode'] != "guest" ? "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"logout.php\"> Logout </a></h3>" : "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"index.php\"> Login </a></h3>";
+		  $logout = isset($_SESSION['userMode']) && $_SESSION['userMode'] != "guest" ? "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"logout.php\"> Logout </a></h3>" : "<h3 style=\"float: right;\"><a style=\"color: white;\" href=\"loginAccount.php\"> Login </a></h3>";
 		  if(isset($_SESSION['userMode'])) {
 			  $userMode = $_SESSION['userMode'];
 			  if ($userMode == 'account') {
