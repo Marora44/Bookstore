@@ -147,3 +147,49 @@ create table StoredPay (
   foreign key (userID) references User(id),
   foreign key (paymentID) references PaymentInfo(id)
 );
+
+INSERT INTO User VALUES(-1);
+INSERT INTO USER VALUES();
+INSERT INTO USER VALUES();
+INSERT INTO USER VALUES();
+INSERT INTO USER VALUES();
+
+INSERT INTO AccountHolder VALUES("admin","admin",1,"Database","Manager",-1);
+INSERT INTO AccountHolder VALUES("john21","12345",1,"John","Doe",1);
+INSERT INTO AccountHolder VALUES("jane21","12345",1,"Jane","Doe",2);
+INSERT INTO AccountHolder VALUES("marora44","12345",0,"Mundeep","Arora",3);
+INSERT INTO AccountHolder VALUES("bg123","12345",0,"Brent","Garey",3);
+
+INSERT INTO Author(firstname,lastname) VALUES("Dr","Suess");
+INSERT INTO Author(firstname,lastname) VALUES("Lemony","Snicket");
+INSERT INTO Author(firstname,lastname) VALUES("JK","Rowling");
+INSERT INTO Author(firstname,lastname) VALUES("Rick","Riordan");
+INSERT INTO Author(firstname,lastname) VALUES("John","Green");
+
+INSERT INTO Publisher(password,name) VALUES("12345","Pub1");
+INSERT INTO Publisher(password,name) VALUES("12345","Pub2");
+INSERT INTO Publisher(password,name) VALUES("12345","Pub3");
+INSERT INTO Publisher(password,name) VALUES("12345","Pub4");
+INSERT INTO Publisher(password,name) VALUES("12345","Pub5");
+
+INSERT INTO Book(isbn,price) VALUES("become_member",30);
+INSERT INTO Book VALUES("0000000000001","The cat In the Hat",1,"Children",50,1,1,1,30);
+INSERT INTO Book VALUES("0000000000002","A Series of Unfortunate Events",2,"Fiction",10,1,0,2,10);
+INSERT INTO Book VALUES("0000000000003","Harry Potter",3,"Fiction",20,1,1,3,40);
+INSERT INTO Book VALUES("0000000000004","Percy Jackson",4,"Fiction",15,1,1,4,50);
+
+INSERT INTO Review(isbn,rtext,rating,username) VALUES ("0000000000001","good book", 5, "marora44");
+INSERT INTO Review(isbn,rtext,rating,username) VALUES ("0000000000001","bad book", 1, "john21");
+INSERT INTO Review(isbn,rtext,rating,username) VALUES ("0000000000002","good book", 5, "bg123");
+INSERT INTO Review(isbn,rtext,rating,username) VALUES ("0000000000003","good book", 5, "marora44");
+INSERT INTO Review(isbn,rtext,rating,username) VALUES ("0000000000004","good book", 5, "marora44");
+
+INSERT INTO BookOrder VALUES(1, "0000000000001", NOW(), 3, 3, 0, 1);
+INSERT INTO BookOrder VALUES(1, "0000000000002", NOW(), 2, 3, 1, 1);
+INSERT INTO BookOrder VALUES(2, "0000000000001", NOW(), 7, 1, 0, 0);
+INSERT INTO BookOrder VALUES(3, "0000000000001", NOW(), 5, 2, 1, 0);
+INSERT INTO BookOrder VALUES(4, "0000000000001", NOW(), 5, 2, 1, 1);
+
+INSERT INTO ShippingMethods VALUES("fast", 10);
+INSERT INTO ShippingMethods VALUES("slow", 5);
+INSERT INTO ShippingMethods VALUES("member", 0);
