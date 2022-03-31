@@ -93,7 +93,7 @@ create table AddressInfo (
   street varchar(30),
   city varchar(30),
   state varchar(20),
-  zip int,
+  zip char(5),
   primary key(id)
 );
 create table PaymentInfo (
