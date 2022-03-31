@@ -6,7 +6,7 @@ $userid = $_SESSION['id'];
 
 $bookorderisbn = 0;
 $price = 0;
-$query = "SELECT * from bookorder where userID = $userid";
+$query = "SELECT * from bookorder where userID = $userid and isPlaced = 1";
 $check = 0;
 ?>
 
@@ -37,19 +37,18 @@ include('header.php');
       $queryprice = "SELECT price, isbn from book where isbn in (select isbn from bookorder where userID = $userid)";
       $resultprice = mysqli_query($dbConnect, $queryprice);
       
-      while ($rowprice = mysqli_fetch_assoc($resultprice)){
-        if($complete && $bookorderisbn = $rowprice['isbn']){
-          $price += $rowprice['price'] * $quantity;
-        }
+      while($rowprice = mysqli_fetch_assoc($resultprice)){
+        $price=$rowprice['price'] * $quantity;
       }
       
+
       if($check != $orderid){
         if($orderid > 0){
           echo "<tr><td><a href=orderhistory.php?orderid=$orderid>" . $orderid . "</a>&nbsp</td><td>&nbsp" . $orderdate . "&nbsp</td><td>".$price."</td>";
         }
       }
         $check = $orderid;
-        $price = 0;
+      
       
         
         //echo $price;
