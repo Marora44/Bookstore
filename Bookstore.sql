@@ -98,7 +98,7 @@ create table AddressInfo (
 create table PaymentInfo (
   id int auto_increment,
   cc varchar(16),
-  ccv char(3),
+  cvv char(3),
   expDate char(5),
   billingID int,
   primary key(id),
