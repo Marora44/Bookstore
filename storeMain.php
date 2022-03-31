@@ -4,7 +4,9 @@ session_start();
 require_once "config.php";
 
 $isbn = "";
+$isyear = FALSE;
 $quantity = $orderID = 0;
+$tempcount = 1;
 if (isset($_SESSION['id'])) {
     $userID = $_SESSION['id'];
 } else die("something went wrong");
@@ -60,6 +62,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $searchQuery = "SELECT * FROM book WHERE authorID IN (SELECT id from author where (firstname LIKE '%$search%') OR (lastname LIKE '%$search%'))";
             #"SELECT authorID from Book where authorID IN (select concat(firstname, ' ', lastname) as authorname, id from author where concat(firstname, ' ', lastname) LIKE '%$search%')");
         }
+        if ($_POST['searchby'] == "year"){
+            $isyear = TRUE;
+            if($_POST['keyword'] == ""){
+                $_POST['keyword'] = "2022";
+            }
+            $search = mysqli_real_escape_string($dbConnect, $_POST['keyword']);
+
+            $searchQuery = "SELECT book.isbn, book.title, book.authorID, book.genre, book.price, book.isDigital, book.isPhysical, pubID, sum(bookorder.quantity) as quan, SUBSTRING(bookorder.orderDate, 1, 4) from book inner join bookorder on book.isbn = bookorder.isbn where (bookorder.isPlaced = 1) group by isbn order by quan desc";
+            
+        }
         //echo $searchQuery;
     }
     if (isset($_POST['reset'])) unset($searchResults);
@@ -90,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <select name="searchby" id="searchby">
             <option value="title">Title</option>
             <option value="author">Author</option>
+            <option value="year">Best selling of Year</option>
         </select>
 
         <br>
@@ -117,7 +130,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         else $booksQuery = $searchQuery;
         $showBooks = mysqli_query($dbConnect, $booksQuery);
         while ($row = mysqli_fetch_assoc($showBooks)) :
-            $instock = $row['quantity'] > 0;
+            if($isyear){
+            $instock = $row['quan'] > 0;
+            }else{
+                $instock = $row['quantity'] > 0;
+            }
             $author = mysqli_query($dbConnect, "SELECT id, firstname, lastname FROM author WHERE id = {$row['authorID']}");
             $authRow = mysqli_fetch_assoc($author);
             $authorName = $authRow['firstname'] . "&nbsp;" . $authRow['lastname'];
@@ -137,10 +154,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form style="margin: 10 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                             <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
                             <input type="hidden" name="type" value="physical" />
-                            <input name="quantity" style="width: 4em" type="number" step="1" min="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
+                            <input name="quantity" style="width: 4em" type="number" step="1" min="1" max="<?= $isyear ? $row['quan'] : $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
                             &nbsp;
                             <input type="submit" name="atc" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?>>
                         </form>
+                    </td>
+                    <td>
+                        <?php 
+                        if($isyear){
+                            echo "<td>Best Selling Rank: $tempcount </td>";
+                            $tempcount += 1;
+                        }
+                        ?>
                     </td>
                 </tr>
             <?php
@@ -164,6 +189,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             &nbsp;
                             <input type="submit" name="atc" value="Add to Cart">
                         </form>
+                    </td>
+                    <td>
+                        <?php 
+                        if($isyear){
+                            echo "<td>Best Selling Rank: $tempcount </td>";
+                            $tempcount += 1;
+                        }
+                        ?>
                     </td>
                 </tr>
         <?php
