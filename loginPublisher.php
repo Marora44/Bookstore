@@ -57,10 +57,6 @@
 	?>
 	<div class="page">
 		<form method="post" action="loginPublisher.php">
-			<div>
-				<h1><a href="index.php"> Home </a></h1>
-			</div>
-
 			<div class="input-group">
 				<label>Publisher Name:	</label>
 				<input type="name" name="name">

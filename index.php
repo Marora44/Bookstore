@@ -2,11 +2,13 @@
 
 session_start();
 
+$id = $_SESSION['id'];
+
 $mode = isset($_SESSION['userMode']) ? $_SESSION['userMode'] : '';
 if (strlen($mode) > 0 AND $mode == 'guest') header("location: continueGuest.php");
 else if (strlen($mode) > 0 AND $mode == 'account') header("location: accountLanding.php");
 else if (strlen($mode) > 0 AND $mode == 'member') header("location: accountLanding.php");
-else if (strlen($mode) > 0 AND $mode == 'publisher') header("location: publisherLanding.php");
+else if (strlen($mode) > 0 AND $mode == 'publisher') header("location: publisherLanding.php?id=" . $id);
 else if (strlen($mode) > 0 AND $mode == 'admin') header("location: adminLanding.php");
 else session_abort()
 ?>
@@ -35,7 +37,3 @@ include('header.php');
 </div>
 
 </html>
-
-<?php
-
-?>

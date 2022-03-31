@@ -2,7 +2,7 @@
 session_start();
 
 require_once "config.php";
-if (isset($_SESSION['userMode'])&& $_SESSION['userMode'] != 'guest') header("location: index.php");
+if (isset($_SESSION['userMode']) && $_SESSION['userMode'] != 'guest') header("location: index.php");
 else if (!isset($_SESSION['id'])) {
         $user_query = $sqlmessage = "";
 
@@ -18,4 +18,18 @@ else if (!isset($_SESSION['id'])) {
         $_SESSION['userMode'] = 'guest';
         $_SESSION['id'] = $guest_id[0];
     }
-header("location: storeMain.php");
+?>
+
+<html>
+<?php
+$headerOutput = "<h1> Welcome to the Online Bookstore</h1>";
+include('header.php');
+?>
+<div style="text-align:center">
+    <h1><a href="storeMain.php">View Books</a></h1>
+    <h3>or</h3>
+    <h2><a href="registerAccount.php">Account Registration</a></h2>
+    <h2><a href="registerPublisher.php">Publisher Registration</a></h2>
+</div>
+
+</html>
