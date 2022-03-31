@@ -1,14 +1,12 @@
 <?php
 session_start();
-#$orderid = $_REQUEST['orderid'];
-#$title = $_GET['title'];
-#$isbn = $_GET['isbn'];
+
 if (isset($_GET['isbn'])) $_SESSION['isbn'] = $_GET['isbn'];
 if (isset($_SESSION['isbn'])) $isbn = $_SESSION['isbn'];
-#echo $isbn;
+
 $query = "SELECT * from Book where isbn = $isbn";
 $title = "";
-#$_SESSION['id'] = 1;
+
 $userID = $_SESSION['id'];
 $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
                         <h3><p> $title </p></h3>";
@@ -21,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_GET['isbn'])) $_SESSION['isbn'] = $_GET['isbn'];
         if (isset($_SESSION['isbn'])) $isbn = $_SESSION['isbn'];
         $quantity = $_POST['quantity'];
-        #$quantity = 1;
         //check if the user has an active cart (unplaced order)
         $checkOrders = mysqli_query($dbConnect, "SELECT id FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE");
         //set the $orderID to the correct ID if a cart exists or creates an appropriate one if not
@@ -82,9 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </tr>
 
     </table>
-</div>
-
-</html>
 
 <?php
 $result = mysqli_query($dbConnect, $query);
@@ -147,7 +141,7 @@ while ($row = mysqli_fetch_assoc($reviews)) {
     echo $review;
 }
 ?>
-<html>
+
 <br><br>
 
 
@@ -173,5 +167,5 @@ while ($row = mysqli_fetch_assoc($reviews)) {
     echo $notpurchased;
     ?>
 </form>
-
+</div>
 </html>
