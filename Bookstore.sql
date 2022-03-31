@@ -98,6 +98,7 @@ create table AddressInfo (
 create table PaymentInfo (
   id int auto_increment,
   cc varchar(16),
+  ccv char(3),
   expDate char(5),
   billingID int,
   primary key(id),
@@ -143,7 +144,6 @@ create table StoredShip (
 create table StoredPay (
   userID int,
   paymentID int,
-  ccv int,
   foreign key (userID) references User(id),
   foreign key (paymentID) references PaymentInfo(id)
 );
