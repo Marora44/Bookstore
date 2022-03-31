@@ -52,24 +52,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($_POST['searchby'] == "author") {
             #store the method of search 
-            $search = mysqli_real_escape_string($dbConnect, $_POST['keyword']);
-
+            $search = $_POST['keyword'];
             #get author firstname,lastname from author id
             #$resultsearchauthorname = mysqli_query($dbConnect, "SELECT id from (select concat(firstname, ' ', lastname) as authorname, id from author) where authorname LIKE '%$search%'");
             #select books where authorid is in $resultsearchauthorname
 
             #run the query to search Book using keyword LIKE
-            $searchQuery = "SELECT * FROM book WHERE authorID IN (SELECT id from author where (firstname LIKE '%$search%') OR (lastname LIKE '%$search%'))";
+            $searchQuery = "SELECT * FROM book WHERE authorID IN (SELECT id from author where concat(firstname,' ',lastname) LIKE '%$search%')";
             #"SELECT authorID from Book where authorID IN (select concat(firstname, ' ', lastname) as authorname, id from author where concat(firstname, ' ', lastname) LIKE '%$search%')");
         }
         if ($_POST['searchby'] == "year"){
             $isyear = TRUE;
             if($_POST['keyword'] == ""){
                 $_POST['keyword'] = "2022";
+
             }
+            $year = $_POST['keyword'];
             $search = mysqli_real_escape_string($dbConnect, $_POST['keyword']);
 
-            $searchQuery = "SELECT book.isbn, book.title, book.authorID, book.genre, book.price, book.isDigital, book.isPhysical, pubID, sum(bookorder.quantity) as quan, SUBSTRING(bookorder.orderDate, 1, 4) from book inner join bookorder on book.isbn = bookorder.isbn where (bookorder.isPlaced = 1) group by isbn order by quan desc";
+            $searchQuery = "SELECT book.isbn, book.title, book.authorID, book.genre, book.price, book.isDigital, book.isPhysical, pubID, sum(bookorder.quantity) as quan from book inner join bookorder on book.isbn = bookorder.isbn where (bookorder.isPlaced = 1 AND substring(orderDate,1,4) = $year) group by isbn order by quan desc";
             
         }
         //echo $searchQuery;
