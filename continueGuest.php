@@ -2,9 +2,8 @@
 session_start();
 
 require_once "config.php";
-if (isset($_SESSION['userMode'])) {
-    if ($_SESSION['userMode'] != 'guest') header("location: index.php");
-    else if (!isset($_SESSION['id'])) {
+if (isset($_SESSION['userMode'])&& $_SESSION['userMode'] != 'guest') header("location: index.php");
+else if (!isset($_SESSION['id'])) {
         $user_query = $sqlmessage = "";
 
         $user_query = "INSERT INTO User VALUES()";
@@ -19,5 +18,4 @@ if (isset($_SESSION['userMode'])) {
         $_SESSION['userMode'] = 'guest';
         $_SESSION['id'] = $guest_id[0];
     }
-}
 header("location: storeMain.php");
