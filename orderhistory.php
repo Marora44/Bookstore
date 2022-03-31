@@ -29,7 +29,7 @@ $query = "SELECT * from bookorder where id = $orderid";
     $result = mysqli_query($dbConnect, $query);
     while ($row = mysqli_fetch_assoc($result)) {
       $isbn = $row['isbn'];
-      $querytitle = "SELECT title from book where isbn = $isbn";
+      $querytitle = "SELECT title from book where isbn = \"{$isbn}\"";
       $resulttitle = mysqli_query($dbConnect, $querytitle);
       while ($rowtitle = mysqli_fetch_assoc($resulttitle)) {
         $book = $rowtitle['title'];
@@ -38,7 +38,7 @@ $query = "SELECT * from bookorder where id = $orderid";
 
       <?php
       $quantity = $row['quantity'];
-      $queryprice = "SELECT price from book where isbn = $isbn";
+      $queryprice = "SELECT price from book where isbn = \"{$isbn}\"";
       $resultprice = mysqli_query($dbConnect, $queryprice);
       while ($rowprice = mysqli_fetch_assoc($resultprice)) {
         $price = $rowprice['price'] * $quantity;

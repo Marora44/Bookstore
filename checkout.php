@@ -9,6 +9,7 @@ require_once "config.php";
 
 if (isset($_SESSION['id'])) {
     $userID = $_SESSION['id'];
+//    echo $userID;
 } else die("something went wrong");
 $cartIDq = mysqli_query($dbConnect, "SELECT id FROM bookorder WHERE userID = {$userID} AND isPlaced = FALSE");
 $_SESSION['cartID'] = mysqli_fetch_assoc($cartIDq)['id'];
@@ -21,13 +22,14 @@ $ccno = $expMo = $expY = $cvv = $bAddress = $bCity = $bState = $bZip = $sAddress
 $enterPay = $entership = true;
 
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['checkout'])) {
         //print_r($_POST);
         $ccno = $_POST['ccno'];
         $expMo = substr($_POST['expDate'], 5, 2);
         $expY = substr($_POST['expDate'], 2, 2);
-        $expDate = $expMo ."/". $expY;
+        $expDate = $expMo . "/" . $expY;
         $cvv = $_POST['cvv'];
         $bAddress = $_POST['bAddress'];
         $bCity = $_POST['bCity'];
@@ -44,14 +46,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $getMaxSID = mysqli_query($dbConnect, "SELECT max(id) FROM paymentinfo");
         $maxSID = mysqli_fetch_array($getMaxSID)[0];
         mysqli_query($dbConnect, "INSERT INTO pays VALUES($cartID,$maxSID)");
-        if(isset($_POST['savePay'])) mysqli_query($dbConnect, "INSERT INTO storedPay VALUES({$userID},{$maxSID})");
+        if (isset($_POST['savePay'])) mysqli_query($dbConnect, "INSERT INTO storedPay VALUES({$userID},{$maxSID})");
         $shippingInsert = mysqli_query($dbConnect, "INSERT INTO addressinfo(street,city,state,zip) VALUES(\"{$sAddress}\",\"{$sCity}\",\"{$sState}\",\"{$sZip}\")");
         $getMaxAID = mysqli_query($dbConnect, "SELECT max(id) FROM addressinfo");
         //mysqli_query($dbConnect, "INSERT INTO ships VALUES($cartID,$maxAID)");
-        if(isset($_POST['saveShip'])) mysqli_query($dbConnect, "INSERT INTO storedShip VALUES({$userID},{$maxAID})");
-        mysqli_query($dbConnect, "INSERT INTO buys VALUES($cartID,$userID)");
+        if (isset($_POST['saveShip'])) mysqli_query($dbConnect, "INSERT INTO storedShip VALUES({$userID},{$maxAID})");
+        mysqli_query($dbConnect, "INSERT INTO buys VALUES($userID,$cartID)");
         mysqli_query($dbConnect, "UPDATE bookorder SET isPlaced = true WHERE id = {$cartID}");
-        header("location: shoppingcart.php");
+        if(isset($_SESSION['become_mem'])) {
+            mysqli_query($dbConnect, "UPDATE accountholder SET isMember = 1 WHERE userID = {$userID}");
+            unset($_SESSION['become_mem']);
+        }
+        //header("location: shoppingcart.php");
     }
 }
 
@@ -77,9 +83,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <?php
-    /*     $headerOutput = "<h1> Welcome to the Online Bookstore!</h1>
-                 <h3><p>Your Cart</p></h3>";
-    include('header.php'); */
+    $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
+    <h3><p> Checkout:</p></h3>";
+    include('header.php');
+    require_once "config.php";
+
+    ?>
     ?>
     <table style="table-layout: auto;">
         <tr>
@@ -96,6 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $bookInfo = mysqli_query($dbConnect, "SELECT title, price, quantity FROM book WHERE isbn = \"{$cartRow['isbn']}\"");
             $bookRow = mysqli_fetch_assoc($bookInfo);
             $totalPrice += $cartRow['quantity'] * $bookRow['price'];
+            if($cartRow['isbn'] == "become_member") $_SESSION['become_mem'] = true;
             if (!$cartRow['isDigital']) :
         ?>
                 <tr>
@@ -146,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // if (mysqli_num_rows($storedMethodsPay) > 0) :
             //     $payMethods = mysqli_query($dbConnect, "SELECT * FROM paymentinfo WHERE id in (SELECT paymentID FROM storedPay WHERE userID = {$userID})");
             ?>
-                <!-- <td>
+            <!-- <td>
                     <form method="POST">
                         Use a Stored Payment Method: <select name=selectedmethod>
                             <?php
@@ -174,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // if (mysqli_num_rows($storedMethodsship) > 0) :
             //     $shipMethods = mysqli_query($dbConnect, "SELECT * FROM addressinfo WHERE id in (SELECT addressID FROM storedship WHERE userID = {$userID})")
             ?>
-                <!-- <td>
+            <!-- <td>
                     <form method="POST">
                         Use a Stored Shipping Address: <select name=selectedmethod>
                             <?php
