@@ -63,7 +63,7 @@
 		  }
 		  ?>
 		  <?= $home.$logout ?>
-		  <h3 style="float: left;"><a style="color: white;" href="shoppingcart.php"> Cart </a></h3>
+		  <h3 style="float: left;"><a style="color: white; padding: 20px;" href="shoppingcart.php"> Cart </a></h3>
         </div>
 		
 	</body>
