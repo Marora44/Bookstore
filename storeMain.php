@@ -126,7 +126,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
                 <tr>
                     <td><?= $row['isbn'] ?></td>
-                    <td><?= $row['title'] ?></td>
+                    <?php 
+                    $temptitle = $row['title'];
+                    $tempisbn = $row['isbn'];
+                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>;"?>
                     <td><?= $authorName ?></td>
                     <td>Physical</td>
                     <td>$<?= $row['price'] ?></td>
@@ -146,7 +149,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>
                 <tr>
                     <td><?= $row['isbn'] ?></td>
-                    <td><?= $row['title'] ?></td>
+                    <?php 
+                    $temptitle = $row['title'];
+                    $tempisbn = $row['isbn'];
+                    echo "<td><a href=Book.php?isbn=$tempisbn>$temptitle</a></td>;"?>
                     <td><?= $authorName ?></td>
                     <td>Digital</td>
                     <td>$<?= $row['price'] ?></td>
