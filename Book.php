@@ -13,7 +13,8 @@ $userID = $_SESSION['id'];
 $headerOutput = "<h1>Welcome to the Online Bookstore!</h1>
                         <h3><p> $title </p></h3>";
 include('header.php');
-
+$alreadyreviewed = "";
+$notpurchased = "";
 require_once "config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['cart'])) {
@@ -42,13 +43,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else die("error adding to cart");
     }
     if (isset($_POST['submitreview'])) {
-        //save the entered values on the form in variables
-        $newreview = mysqli_real_escape_string($dbConnect, $_POST['newreview']);
-        $newrating = mysqli_real_escape_string($dbConnect, $_POST['rating']);
-
-        $querynewreview = "insert into review values (0, \"$isbn\", \"$newreview\", $newrating, (SELECT username from accountholder where userID = 1))";
-
-        $resultnewreview = mysqli_query($dbConnect, $querynewreview);
+        #check if they have purchased the book
+        $purchasedbook = mysqli_query($dbConnect, "SELECT count(id) from bookorder where userID = $userID and isbn = $isbn");
+        while ($purchasedbook1 = mysqli_fetch_assoc($purchasedbook)) {
+            if ($purchasedbook1['count(id)'] == 0) {
+                $notpurchased = "You must purchase the book before leaving a review!";
+            } else {
+                $alreadyposted = mysqli_query($dbConnect, "SELECT count(username) from review natural join accountholder where isbn = $isbn and userID = $userID");
+                while ($alreadyposted1 = mysqli_fetch_assoc($alreadyposted)) {
+                    if ($alreadyposted1['count(username)'] == 0) {
+                        $querynewreview = "insert into review values (0, \"$isbn\", \"$newreview\", $newrating, (SELECT username from accountholder where userID = $userID))";
+                        $resultnewreview = mysqli_query($dbConnect, $querynewreview);
+                    } else {
+                        $alreadyreviewed = "You have already left a review!";
+                    }
+                }
+            }
+        }
+        if($notpurchased == "" && $alreadyreviewed == ""){
+            //save the entered values on the form in variables
+            $newreview = mysqli_real_escape_string($dbConnect, $_POST['newreview']);
+            $newrating = mysqli_real_escape_string($dbConnect, $_POST['rating']);
+        }
     }
 }
 
@@ -104,13 +120,13 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 <td>
-                            <form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                                <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
-                                <input type="hidden" name="type" value="physical" />
-                                <input name="quantity" style="width: 4em" type="number" step="1" min="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
-                                &nbsp;
-                                <input type="submit" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?> name="cart">
-                            </form>
+    <form style="margin: 5 auto;" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+        <input type="hidden" name="isbn" value="<?= $row['isbn'] ?>" />
+        <input type="hidden" name="type" value="physical" />
+        <input name="quantity" style="width: 4em" type="number" step="1" min="1" max="<?= $row['quantity'] ?>" <?= $instock ? "value=\"1\"" : "value=\"0\" disabled" ?>>
+        &nbsp;
+        <input type="submit" <?= $instock ? "value=\"Add to Cart\"" : "value=\"Out of Stock\" disabled" ?> name="cart">
+    </form>
 </td>
 
 <?php
@@ -136,27 +152,26 @@ while ($row = mysqli_fetch_assoc($reviews)) {
 
 
 
-<form method = "POST">
-<label for="rating">Select a Rating:</label>
-<select name="rating" id="rating">
-    <option value=1>1</option>
-    <option value=2>2</option>
-    <option value=3>3</option>
-    <option value=4>4</option>
-    <option values=5>5</option>
-</select>
+<form method="POST">
+    <label for="rating">Select a Rating:</label>
+    <select name="rating" id="rating">
+        <option value=1>1</option>
+        <option value=2>2</option>
+        <option value=3>3</option>
+        <option value=4>4</option>
+        <option values=5>5</option>
+    </select>
 
-<br>
+    <br>
     <label for="newreview">Write a review:</label><br>
     <input type="text" id="newreview" name="newreview"><br>
     <div class="input-group">
         <button type="submit" class="btn" name="submitreview">Post Review</button>
     </div>
-
+    <?php
+    echo $alreadyreviewed;
+    echo $notpurchased;
+    ?>
 </form>
 
 </html>
-
-<?php
-
-?>
