@@ -3,7 +3,7 @@
 session_start();
 
 $mode = isset($_SESSION['userMode']) ? $_SESSION['userMode'] : '';
-if (strlen($mode) > 0) header("location: {$mode}Landing.php");
+if (strlen($mode) > 0 AND $mode != 'guest') header("location: {$mode}Landing.php");
 else session_abort()
 ?>
 
