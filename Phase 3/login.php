@@ -1,9 +1,9 @@
 <?php
 require_once "../config.php";
 //this page returns a single string with the user's ID if login is successful or an error message preceeded by the '!' character if it is not
-
-$username = isset($_POST['username']) ? $_POST['username'] : "";
-$password = isset($_POST['password']) ? $_POST['password'] : "";
+$info = json_decode($_POST['login'], $associative = true);
+$username = $info['username'];
+$password = $info['password'];
 
 if(empty($username)) echo "!Enter a username";
 else if(empty($password)) echo "!Enter a username";
