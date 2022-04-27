@@ -3,7 +3,7 @@ require_once "../config.php";
 $orderHistory = array();
 $tempOrders = array();
 
-$userID = isset($_POST['id']) ? $_POST['id'] : "";
+$userID = isset($_POST['id']) ? $_POST['id'] : "7";
 
 $result = mysqli_query($dbConnect,"SELECT id, orderDate FROM bookorder WHERE userID = {$userID} AND isPlaced = TRUE");
 $currentID = 0;
