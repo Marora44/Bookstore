@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,11 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 >>>>>>> parent of 28b02a7 (fixed errors)
+=======
+>>>>>>> parent of c1a007c (display search code)
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -47,6 +51,8 @@ class BookResults {
     }
 }
 
+=======
+>>>>>>> parent of c1a007c (display search code)
 
 >>>>>>> parent of 28b02a7 (fixed errors)
 public class SearchResults extends AppCompatActivity {
@@ -69,6 +75,7 @@ public class SearchResults extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     private void setAdapter(){
@@ -133,4 +140,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return booksList.size();
     }
 >>>>>>> parent of 28b02a7 (fixed errors)
+=======
+>>>>>>> parent of c1a007c (display search code)
 }
