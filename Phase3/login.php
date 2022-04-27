@@ -11,11 +11,11 @@ $password = $_POST['password'];
 $login = array();
 
 $result = mysqli_query($dbConnect, "SELECT username, password, userID FROM accountholder WHERE username = \"{$username}\" AND password = \"{$password}\"");
-if (mysqli_num_rows($result) < 1) $login['success'] = "!Incorrect username/password";
+if (mysqli_num_rows($result) < 1) $login['success'] = "Incorrect username/password";
 else {
     $row = mysqli_fetch_assoc($result);
     $login['success'] = "success";
-    $login['id'] = $row['id'];
+    $login['id'] = $row['userID'];
 }
 mysqli_free_result($result);
 
