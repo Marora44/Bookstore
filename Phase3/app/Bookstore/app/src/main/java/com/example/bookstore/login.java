@@ -52,9 +52,10 @@ public class login extends AppCompatActivity {
                             Log.d("query", response);
                             try {
                                 JSONObject loginResponse = new JSONObject(response);
-                                if(loginResponse.getString("success") == "success") {
+
+                                if(loginResponse.getString("success").equals("success")) {
                                     String id = loginResponse.getString("id");
-                                    Intent i = new Intent(login.this, SearchResults.class);
+                                    Intent i = new Intent(login.this, OrderHistory.class);
                                     i.putExtra("id", id);
                                     login.this.startActivity(i);
                                 }
