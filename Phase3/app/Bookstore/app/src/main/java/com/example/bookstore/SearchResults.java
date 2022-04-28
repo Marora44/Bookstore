@@ -23,15 +23,18 @@ import java.util.ArrayList;
 //101
 public class SearchResults extends AppCompatActivity {
 
-    private ArrayList<BookResults> booksList;
-    private RecyclerView recyclerView;
+    public ArrayList<BookResults> booksList = new ArrayList<>();
+    public RecyclerView recyclerView;
+    //public TextView temptextview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
         //IMPLEMENT:
-        recyclerView = findViewById(R.id.displayQuery);
+
+    recyclerView = findViewById(R.id.searchQuery);
+
 
         //TextView tSearch = (TextView) findViewById(R.id.displayQuery);
 

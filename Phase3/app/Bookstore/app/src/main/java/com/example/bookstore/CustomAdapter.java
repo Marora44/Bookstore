@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<com.example.bookstore.CustomAdapter.ViewHolder> {
 
-    private ArrayList<BookResults> booksList;
-
+    public ArrayList<BookResults> booksList = new ArrayList<>();
+    public TextView bookText;
     public static class ViewHolder extends RecyclerView.ViewHolder {
         static private TextView bookText;
 
