@@ -33,10 +33,10 @@ public class SearchResults extends AppCompatActivity {
 
         //IMPLEMENT:
 
-    recyclerView = findViewById(R.id.searchQuery);
+    recyclerView = findViewById(R.id.displayQuery);
 
 
-        //TextView tSearch = (TextView) findViewById(R.id.displayQuery);
+        TextView tSearch = (TextView) findViewById(R.id.searchQuery);
 
         Intent data = getIntent();
 
